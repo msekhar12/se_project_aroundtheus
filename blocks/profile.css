@@ -1,0 +1,66 @@
+.profile {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.profile__image {
+  margin-top: 36.25px;
+  margin-left: 177.5px;
+}
+
+.profile__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 36.25px;
+}
+
+.profile__name-pen {
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 3.75px;
+}
+
+.profile__name {
+  color: white;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 48px;
+  margin: 0;
+}
+
+.profile__pen {
+  padding: 7px;
+  border: 1px solid #ffffff;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+}
+
+.profile__name-tag {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+  margin: 0px;
+}
+
+.profile__add-button {
+  height: 22px;
+  width: 22px;
+  padding: 14px 64px 14px 64px;
+  border: 2px solid #ffffff;
+  border-radius: 2px;
+  margin-left: 165px;
+  margin-right: 200px;
+  margin-top: 36.25px;
+}

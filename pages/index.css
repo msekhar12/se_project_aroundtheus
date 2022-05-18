@@ -1,0 +1,23 @@
+@import url("./normalize.css");
+@import url("../blocks/page.css");
+@import url("../blocks/avatar.css");
+@import url("../blocks/profile.css");
+@import url("./fonts.css");
+@import url("../blocks/header.css");
+@import url("../blocks/logo.css");
+@import url("../blocks/nav.css");
+@import url("../blocks/content.css");
+@import url("../blocks/menu.css");
+@import url("../blocks/card.css");
+@import url("../blocks/recipies.css");
+@import url("../blocks/video.css");
+@import url("../blocks/reservation.css");
+@import url("../blocks/form.css");
+@import url("../blocks/about.css");
+@import url("../blocks/footer.css");
+@import url("../blocks/social-media.css");
+
+.body {
+  background: black;
+  box-sizing: content-box;
+}
