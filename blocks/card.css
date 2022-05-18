@@ -1,0 +1,50 @@
+.card {
+  min-width: 282px;
+  min-height: 361px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.card__image {
+  min-width: 282px;
+  min-height: 282px;
+  border-radius: 10px 10px 0px 0px;
+  margin: 0;
+}
+
+.card__label {
+  max-width: 282px;
+  max-height: 79px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 21px;
+  padding-right: 15px;
+  padding-top: 25px;
+  padding-bottom: 31px;
+  margin: 0;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.card__label-text {
+  max-width: 246px;
+  max-height: 23px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0;
+  color: #000000;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card__heart {
+  height: 18.13px;
+  align-self: flex-end;
+}

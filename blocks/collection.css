@@ -1,0 +1,7 @@
+.collection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 47.25px 200px 67px 200px;
+  column-gap: 17px;
+  row-gap: 20px;
+}
