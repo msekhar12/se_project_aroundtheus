@@ -21,3 +21,20 @@ If I am using padding, the line is disappearing if width is < 400px*/
   margin-left: 200px;
   margin-right: 200px;
 }
+
+@media screen and (max-width: 544px) {
+  .header__image {
+    width: 126px;
+    height: 24px;
+    padding-left: 27px;
+    padding-top: 28px;
+    padding-bottom: 32px;
+  }
+
+  .header__line {
+    border-bottom: 4px solid #545454;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+  }
+}
