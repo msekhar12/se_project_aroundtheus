@@ -11,8 +11,6 @@
   margin-right: auto;
 }
 
-/*Why did I use margin-left, right, instead of padding?
-If I am using padding, the line is disappearing if width is < 400px*/
 .header__line {
   border-top: 1px solid #545454;
   flex-grow: 1;
@@ -20,4 +18,12 @@ If I am using padding, the line is disappearing if width is < 400px*/
   line-height: 0px;
   padding: 0;
   margin: 0;
+}
+
+@media screen and (max-width: 544px) {
+  .header__image {
+    padding-top: 28px;
+    padding-left: 27px;
+    padding-bottom: 32px;
+  }
 }

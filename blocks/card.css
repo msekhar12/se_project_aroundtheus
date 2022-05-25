@@ -1,11 +1,9 @@
 .card {
   max-width: 282px;
-  min-height: 361px;
+  max-height: 361px;
   background: #ffffff;
   border-radius: 10px;
   box-sizing: border-box;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .card__image {
@@ -21,10 +19,7 @@
   background: white;
   display: flex;
   justify-content: space-between;
-  padding-left: 21px;
-  padding-right: 15px;
-  padding-top: 25px;
-  padding-bottom: 25px;
+  padding: 25px 15px 25px 21px;
   margin: 0;
   border-radius: 0px 0px 10px 10px;
   align-items: center;
@@ -32,6 +27,8 @@
 
 .card__label-text {
   max-width: 246px;
+  /*I have to use min-height. Else the text for 
+  one of the card is getting chopped*/
   min-height: 23px;
   font-family: "Inter";
   font-style: normal;
@@ -47,6 +44,10 @@
 }
 
 .card__heart {
-  height: 18.13px;
+  height: 18px;
   align-self: flex-end;
+}
+
+.card__heart:hover {
+  opacity: 0.5;
 }

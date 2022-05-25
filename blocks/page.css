@@ -1,32 +1,7 @@
-/*.page {
-  min-width: 320px;
-  max-width: 1280px;
-  font-family: "Inter", "Arial", sans-serif;
-  font-size: 16px;
-  line-height: 20px;
-  background: #000000;
-}
-*/
-
-/*.page {
-  display: grid;
-  max-width: 1280px;
-  grid-template-columns: 200px 1fr 200px;
-  height: 100vh;
-}
-
-.page__margin {
-  margin: auto;
-}
-
-.page__profile {
-  grid-column: 2;
-}
-*/
-
 .page {
   display: grid;
   max-width: 1280px;
+  min-width: 320px;
   grid-template-columns: 200px 1fr 200px;
   height: 100vh;
   /*I am not able to use the following efficiently*/
@@ -36,7 +11,9 @@
     ". page__content ."
     ". page__footer .";*/
 
-  /*Can I use auto for margin here as per BEM rules??*/
+  /*Can I use auto for margin here as per BEM rules?
+  I tried to apply margin auto for body__page CSS rule,
+  but it is not working*/
   margin: auto;
   /*align-content: start is needed to make sure that 
   there is no space between the grid rows*/
@@ -53,19 +30,21 @@
   /*The grid-row:1/-1 is not working*/
   grid-row: 1 / 5;
   width: 200px;
-  background: green;
+  /*Uncomment background color for debugging*/
+  /*background: green;*/
 }
 
 .page__right-side {
   grid-column: 3;
   width: 200px;
-  background: green;
+  /*Uncomment background color for debugging*/
+  /*background: green;*/
   /*The grid-row:1/-1 is not working*/
   grid-row: 1/5;
 }
 
 .page__profile {
-  margin: 40px 0px 0px 0px;
+  margin: 40px auto 0px auto;
   padding: 0px;
   grid-column: 2;
   grid-row: 2;
@@ -83,4 +62,53 @@
   margin-top: 67px;
   grid-column: 2;
   grid-row: 4;
+}
+
+@media screen and (max-width: 544px) {
+  .page {
+    display: grid;
+    max-width: 1280px;
+    min-width: 320px;
+    grid-template-columns: 19px 1fr 19px;
+    height: 100vh;
+    /*I am not able to use the following efficiently*/
+    /*grid-template-areas:
+      ". page__header ."
+      ". page__profile ."
+      ". page__content ."
+      ". page__footer .";*/
+
+    /*Can I use auto for margin here as per BEM rules??*/
+    margin: auto;
+    /*align-content: start is needed to make sure that 
+    there is no space between the grid rows*/
+    align-content: start;
+  }
+
+  .page__right-side {
+    grid-column: 3;
+    width: 19px;
+    /*Uncomment background color for debugging*/
+    /*background: green;*/
+    /*The grid-row:1/-1 is not working*/
+    grid-row: 1/5;
+  }
+
+  .page__left-side {
+    grid-column: 1;
+    /*The grid-row:1/-1 is not working*/
+    grid-row: 1 / 5;
+    width: 19px;
+    /*Uncomment background color for debugging*/
+    /*background: green;*/
+  }
+
+  .page__footer {
+    margin-top: 48px;
+    grid-column: 2;
+    grid-row: 4;
+    max-width: 282px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
