@@ -12,21 +12,5 @@
   line-height: 22px;
 
   color: #545454;
-  padding-left: 200px;
   margin: 0;
-}
-
-@media screen and (max-width: 544px) {
-  .footer__text {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    width: 288px;
-    color: #545454;
-    padding-left: 19px;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }

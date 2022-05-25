@@ -1,5 +1,4 @@
 .header {
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -7,34 +6,18 @@
 .header__image {
   width: 173px;
   height: 33px;
-  padding-left: 200px;
   padding-top: 45px;
   padding-bottom: 41px;
+  margin-right: auto;
 }
 
 /*Why did I use margin-left, right, instead of padding?
 If I am using padding, the line is disappearing if width is < 400px*/
 .header__line {
-  border-bottom: 1px solid #545454;
+  border-top: 1px solid #545454;
   flex-grow: 1;
   max-width: 880px;
-  margin-left: 200px;
-  margin-right: 200px;
-}
-
-@media screen and (max-width: 544px) {
-  .header__image {
-    width: 126px;
-    height: 24px;
-    padding-left: 27px;
-    padding-top: 28px;
-    padding-bottom: 32px;
-  }
-
-  .header__line {
-    border-bottom: 4px solid #545454;
-    flex-grow: 1;
-    margin: 0;
-    padding: 0;
-  }
+  line-height: 0px;
+  padding: 0;
+  margin: 0;
 }

@@ -1,8 +1,82 @@
-.page {
+/*.page {
   min-width: 320px;
   max-width: 1280px;
   font-family: "Inter", "Arial", sans-serif;
   font-size: 16px;
   line-height: 20px;
   background: #000000;
+}
+*/
+
+/*.page {
+  display: grid;
+  max-width: 1280px;
+  grid-template-columns: 200px 1fr 200px;
+  height: 100vh;
+}
+
+.page__margin {
+  margin: auto;
+}
+
+.page__profile {
+  grid-column: 2;
+}
+*/
+
+.page {
+  display: grid;
+  max-width: 1280px;
+  grid-template-columns: 200px 1fr 200px;
+  height: 100vh;
+  /*I am not able to use the following efficiently*/
+  /*grid-template-areas:
+    ". page__header ."
+    ". page__profile ."
+    ". page__content ."
+    ". page__footer .";*/
+
+  /*Can I use auto for margin here as per BEM rules??*/
+  margin: auto;
+  /*align-content: start is needed to make sure that 
+  there is no space between the grid rows*/
+  align-content: start;
+}
+
+.page__header {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.page__left-side {
+  grid-column: 1;
+  grid-row: 1/4;
+  width: 200px;
+  background: green;
+}
+
+.page__right-side {
+  grid-column: 3;
+  width: 200px;
+  background: green;
+  grid-row: 1/4;
+}
+
+.page__profile {
+  margin: 40px 0px 0px 0px;
+  padding: 0px;
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.page__content {
+  margin-top: 50px;
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.page__footer {
+  margin-top: 67px;
+  grid-column: 2;
+  grid-row: 4;
 }

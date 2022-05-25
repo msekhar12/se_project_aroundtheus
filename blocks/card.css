@@ -1,6 +1,6 @@
 .card {
   max-width: 282px;
-  max-height: 361px;
+  min-height: 361px;
   background: #ffffff;
   border-radius: 10px;
   box-sizing: border-box;
@@ -24,19 +24,20 @@
   padding-left: 21px;
   padding-right: 15px;
   padding-top: 25px;
-  padding-bottom: 31px;
+  padding-bottom: 25px;
   margin: 0;
   border-radius: 0px 0px 10px 10px;
+  align-items: center;
 }
 
 .card__label-text {
   max-width: 246px;
-  max-height: 23px;
+  min-height: 23px;
   font-family: "Inter";
   font-style: normal;
   font-weight: 900;
   font-size: 24px;
-  line-height: 29px;
+  line-height: 20px;
   margin: 0;
   color: #000000;
 
