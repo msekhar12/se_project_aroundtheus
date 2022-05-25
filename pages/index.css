@@ -1,8 +1,4 @@
 @import url("https://rsms.me/inter/inter.css");
-html {
-  font-family: "Inter", sans-serif;
-}
-
 @import url("./normalize.css");
 @import url("../blocks/page.css");
 @import url("../blocks/avatar.css");
