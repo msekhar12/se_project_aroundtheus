@@ -65,3 +65,15 @@
   margin: 0px 0px 0px 165px;
   box-sizing: border-box;
 }
+
+@media screen and (min-width: 544px) and (max-width: 1024px) {
+  .profile__add-button {
+    height: 50px;
+    width: 150px;
+    padding: 14px 64px 14px 64px;
+    border: 2px solid #ffffff;
+    border-radius: 2px;
+    margin: 0px 0px 0px 70px;
+    box-sizing: border-box;
+  }
+}

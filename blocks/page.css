@@ -50,7 +50,8 @@
 
 .page__left-side {
   grid-column: 1;
-  grid-row: 1/4;
+  /*The grid-row:1/-1 is not working*/
+  grid-row: 1 / 5;
   width: 200px;
   background: green;
 }
@@ -59,7 +60,8 @@
   grid-column: 3;
   width: 200px;
   background: green;
-  grid-row: 1/4;
+  /*The grid-row:1/-1 is not working*/
+  grid-row: 1/5;
 }
 
 .page__profile {
@@ -73,6 +75,8 @@
   margin-top: 50px;
   grid-column: 2;
   grid-row: 3;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .page__footer {
