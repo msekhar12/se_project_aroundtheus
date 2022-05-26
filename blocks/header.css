@@ -1,6 +1,7 @@
 .header {
   display: flex;
   flex-direction: column;
+  margin: 0;
 }
 
 .header__image {

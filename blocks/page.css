@@ -3,13 +3,9 @@
   max-width: 1280px;
   min-width: 320px;
   grid-template-columns: 200px 1fr 200px;
+  /*auto Will help you to make the grid rows hug the elements*/
+  grid-template-rows: auto;
   height: 100vh;
-  /*I am not able to use the following efficiently*/
-  /*grid-template-areas:
-    ". page__header ."
-    ". page__profile ."
-    ". page__content ."
-    ". page__footer .";*/
 
   /*Can I use auto for margin here as per BEM rules?
   I tried to apply margin auto for body__page CSS rule,
@@ -25,24 +21,6 @@
   grid-row: 1;
 }
 
-.page__left-side {
-  grid-column: 1;
-  /*The grid-row:1/-1 is not working*/
-  grid-row: 1 / 5;
-  width: 200px;
-  /*Uncomment background color for debugging*/
-  /*background: green;*/
-}
-
-.page__right-side {
-  grid-column: 3;
-  width: 200px;
-  /*Uncomment background color for debugging*/
-  /*background: green;*/
-  /*The grid-row:1/-1 is not working*/
-  grid-row: 1/5;
-}
-
 .page__profile {
   margin: 40px auto 0px auto;
   padding: 0px;
@@ -51,11 +29,9 @@
 }
 
 .page__content {
-  margin-top: 50px;
+  margin: 50px 0 0 0;
   grid-column: 2;
   grid-row: 3;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .page__footer {
@@ -66,47 +42,11 @@
 
 @media screen and (max-width: 544px) {
   .page {
-    display: grid;
-    max-width: 1280px;
-    min-width: 320px;
-    grid-template-columns: 19px 1fr 19px;
-    height: 100vh;
-    /*I am not able to use the following efficiently*/
-    /*grid-template-areas:
-      ". page__header ."
-      ". page__profile ."
-      ". page__content ."
-      ". page__footer .";*/
-
-    /*Can I use auto for margin here as per BEM rules??*/
-    margin: auto;
-    /*align-content: start is needed to make sure that 
-    there is no space between the grid rows*/
-    align-content: start;
-  }
-
-  .page__right-side {
-    grid-column: 3;
-    width: 19px;
-    /*Uncomment background color for debugging*/
-    /*background: green;*/
-    /*The grid-row:1/-1 is not working*/
-    grid-row: 1/5;
-  }
-
-  .page__left-side {
-    grid-column: 1;
-    /*The grid-row:1/-1 is not working*/
-    grid-row: 1 / 5;
-    width: 19px;
-    /*Uncomment background color for debugging*/
-    /*background: green;*/
+    grid-template-columns: 1fr;
   }
 
   .page__footer {
     margin-top: 48px;
-    grid-column: 2;
-    grid-row: 4;
     max-width: 282px;
     margin-left: auto;
     margin-right: auto;
