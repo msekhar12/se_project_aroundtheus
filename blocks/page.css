@@ -1,54 +1,10 @@
 .page {
-  display: grid;
-  max-width: 1280px;
-  min-width: 320px;
-  grid-template-columns: 200px 1fr 200px;
-  /*auto Will help you to make the grid rows hug the elements*/
-  grid-template-rows: auto;
+  max-width: 880px;
   height: 100vh;
-
-  /*Can I use auto for margin here as per BEM rules?
-  I tried to apply margin auto for body__page CSS rule,
-  but it is not working*/
+  width: calc(100% - 40px);
+  display: flex;
   margin: auto;
-  /*align-content: start is needed to make sure that 
-  there is no space between the grid rows*/
-  align-content: start;
-}
-
-.page__header {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.page__profile {
-  margin: 40px auto 0px auto;
-  padding: 0px;
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.page__content {
-  margin: 50px 0 0 0;
-  grid-column: 2;
-  grid-row: 3;
-}
-
-.page__footer {
-  margin-top: 67px;
-  grid-column: 2;
-  grid-row: 4;
-}
-
-@media screen and (max-width: 544px) {
-  .page {
-    grid-template-columns: 1fr;
-  }
-
-  .page__footer {
-    margin-top: 48px;
-    max-width: 282px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  box-sizing: border-box;
+  padding: 0 0px 0 0px;
+  flex-direction: column;
 }

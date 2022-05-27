@@ -1,8 +1,0 @@
-.right-side {
-  width: 200px;
-  margin: 0px;
-  grid-row: 1/-1;
-  grid-column: 3;
-  background-color: red;
-  padding: 0;
-}
