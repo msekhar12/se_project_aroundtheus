@@ -2,7 +2,7 @@
 
 ### Overview
 
-In this project we will apply flex-box and grid layout to develop a landing page for a web application which enables the users to add photographs to their profile. In this phase we will confine the development to front-end only. Eventually we will develop a full fledged website with backend functionality.
+In this project we will apply flex-box and grid layout to develop a landing page for a web application which enables the users to store and display images they own. In this phase we will confine the development to front-end based on HTML and CSS only. Eventually we will develop a full fledged website with backend functionality.
 
 - Intro
 - Figma
@@ -10,7 +10,7 @@ In this project we will apply flex-box and grid layout to develop a landing page
 
 **Intro**
 
-This project is made so all the elements are displayed correctly on popular screen sizes. We recommend investing more time in completing this project, since it's more difficult than previous ones.
+In this project I used HTML and CSS to create the landing page. I used BEM (Block Element Modifier) methodology to create the page. Flexbox and media queries are used to make the page content sensitive to screen sizes. Figma was used to design the page layout.
 
 **Figma**
 
@@ -18,6 +18,8 @@ This project is made so all the elements are displayed correctly on popular scre
 
 **Images**
 
-The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster.
+The images were exported directly from Figma, and the image sizes were optimized using [tinypng](https://tinypng.com/). This will help the page to load faster
 
-Good luck and have fun!
+**URL**
+
+[Around The US](https://msekhar12.github.io/se_project_aroundtheus/)
