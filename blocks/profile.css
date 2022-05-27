@@ -19,9 +19,11 @@
 
 .profile__name-pen {
   display: flex;
-  gap: 18px;
+  /*gap: 18px;*/
+  gap: 10px;
   justify-content: space-between;
   align-items: center;
+  justify-items: center;
 }
 
 .profile__name {
@@ -59,15 +61,22 @@
   margin: 0px;
 }
 
+.profile__avatar-info {
+  display: flex;
+  width: 64%;
+  justify-content: space-between;
+}
+
 .profile__add-button {
   height: 50px;
   width: 150px;
   padding: 14px 64px 14px 64px;
   border: 2px solid #ffffff;
   border-radius: 2px;
-  margin: 0px 0px 0px 0px;
+  margin-bottom: 12px;
   box-sizing: border-box;
   align-self: center;
+  justify-content: space-around;
 }
 
 .profile__add-button:hover {
@@ -85,7 +94,7 @@
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 735px) {
   .profile {
     max-width: 320px;
     display: flex;
@@ -146,5 +155,12 @@
     line-height: 22px;
     color: #ffffff;
     margin: auto;
+  }
+
+  .profile__avatar-info {
+    flex-direction: column;
+    margin: auto;
+    width: 100%;
+    justify-content: space-between;
   }
 }
