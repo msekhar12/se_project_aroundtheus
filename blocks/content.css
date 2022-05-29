@@ -1,3 +1,31 @@
+/*
+Advanced layout technique, instead of media queries
+https://web.dev/patterns/layout/repeat-auto-minmax/
+*/
+/*
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 282px);
+  max-width: 880px;
+  width: 100%;
+  column-gap: 17px;
+  row-gap: 20px;
+  padding: 0;
+  justify-content: center;
+  margin: auto;
+}
+*/
+/*
+TO REVIEWER: 
+------------
+I tried using the above commented technique. 
+While it is easy, I had to adjust a lot of other
+elements (specifically profile elements). 
+So I ended up using flex-box. Please share
+your solution based on the technique mentioned by you:
+https://web.dev/patterns/layout/repeat-auto-minmax/
+*/
+
 .content {
   display: flex;
   flex-wrap: wrap;
@@ -6,18 +34,23 @@
   justify-content: center;
   max-width: 880px;
   width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 @media screen and (max-width: 1024px) {
   .content {
     max-width: 581px;
-    justify-content: space-between;
     margin: auto;
   }
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 620px) {
   .content {
     max-width: 282px;
+    /*Increase the size of the content so that it puts
+    the picture blocks in one column*/
+    padding: 0 20px;
   }
 }

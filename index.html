@@ -10,7 +10,7 @@
       content="HTML, CSS, grid layout, flex-box, around the us landing page"
     />
     <meta name="author" content="Sekhar Mekala" />
-    <link rel="stylesheet" href="../se_project_aroundtheus/pages/index.css" />
+    <link rel="stylesheet" href="./pages/index.css" />
     <!--link rel="icon" type="image/x-icon" href="./favicon.ico" /-->
     <title>Around The U.S.</title>
   </head>
@@ -22,7 +22,6 @@
           class="header__image"
           alt="header image"
         />
-        <span class="header__line"></span>
       </header>
       <div class="profile">
         <div class="profile__avatar-info">
@@ -34,23 +33,16 @@
           <div class="profile__info">
             <div class="profile__name-pen">
               <h1 class="profile__name">Jacques Cousteau</h1>
-              <img
-                src="./images/pen.svg"
-                class="profile__pen"
-                alt="Edit image"
-              />
+              <button class="profile__pen" type="edit"></button>
             </div>
-            <h2 class="profile__name-tag">Explorer</h2>
+            <p class="profile__name-tag">Explorer</p>
           </div>
         </div>
-        <img
-          src="./images/plus.svg"
-          class="profile__add-button"
-          alt="Add image"
-        />
+        <button class="profile__add-button" type="add"></button>
       </div>
-      <div class="content page__content">
-        <div class="card content__card">
+      <!--here ul-->
+      <ul class="content">
+        <li class="card content__card">
           <img
             src="./images/yosemite-valley.jpg"
             class="card__image"
@@ -64,8 +56,8 @@
               alt="heart image"
             />
           </div>
-        </div>
-        <div class="card content__card">
+        </li>
+        <li class="card content__card">
           <img
             src="./images/lake-louise.png"
             class="card__image"
@@ -79,8 +71,8 @@
               alt="heart image"
             />
           </div>
-        </div>
-        <div class="card content__card">
+        </li>
+        <li class="card content__card">
           <img
             src="./images/bald-mountains.png"
             class="card__image"
@@ -93,9 +85,9 @@
               class="card__heart"
               alt="heart image"
             />
-          </div>
-        </div>
-        <div class="card content__card">
+          </li>
+        
+        <li class="card content__card">
           <img src="./images/latemar.png" class="card__image" alt="Latemar" />
           <div class="card__label">
             <p class="card__label-text">Latemar</p>
@@ -105,8 +97,8 @@
               alt="heart image"
             />
           </div>
-        </div>
-        <div class="card content__card">
+        </li>
+        <li class="card content__card">
           <img
             src="./images/vanoise-national-park.png"
             class="card__image"
@@ -120,8 +112,8 @@
               alt="heart image"
             />
           </div>
-        </div>
-        <div class="card content__card">
+        </li>
+        <li class="card content__card">
           <img
             src="./images/lago-di-braies.png"
             class="card__image"
@@ -135,8 +127,9 @@
               alt="heart image"
             />
           </div>
-        </div>
-      </div>
+        </li>
+      </ul>
+      <!--here ul-->
       <footer class="footer">
         <p class="footer__text">© 2022 Around The U.S.</p>
       </footer>

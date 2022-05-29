@@ -8,3 +8,9 @@
   padding: 0 0px 0 0px;
   flex-direction: column;
 }
+
+@media screen and (max-width: 620px) {
+  .page {
+    width: 100%;
+  }
+}

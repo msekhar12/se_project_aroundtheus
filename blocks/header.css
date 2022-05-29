@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  border-bottom: 1px solid rgba(54, 54, 54, 0.7);
 }
 
 .header__image {
@@ -11,8 +12,10 @@
   padding-bottom: 41px;
 }
 
-.header__line {
-  border-top: 1px solid #545454;
-  flex-grow: 1;
-  width: 100%;
+@media screen and (max-width: 620px) {
+  .header__image {
+    margin-left: 27px;
+    width: 126px;
+    height: 24px;
+  }
 }
