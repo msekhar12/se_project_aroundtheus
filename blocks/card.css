@@ -22,7 +22,7 @@
 
 .card__label-text {
   max-width: 246px;
-  line-height: 35px;
+  line-height: 29px;
   font-family: "Inter", "Arial", sans-serif;
   font-style: normal;
   font-weight: 900;
@@ -35,8 +35,11 @@
 }
 
 .card__heart {
-  height: 18px;
+  background: url("../images/heart.svg");
   width: 21px;
+  height: 18px;
+  border: none;
+  justify-content: space-between;
 }
 
 .card__heart:hover {

@@ -45,12 +45,13 @@
   background: url("../images/pen.svg");
   width: 24px;
   height: 24px;
-  background-size: 7px 7px;
+  background-size: 10px 10px;
   border: 1px solid #ffffff;
   background-repeat: no-repeat;
   background-position: center;
   align-self: center;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .profile__pen:hover {
@@ -81,6 +82,7 @@
   background-repeat: no-repeat;
   background-position: center;
   align-self: center;
+  background-size: 22px 22px;
 }
 
 .profile__add-button:hover {
@@ -97,6 +99,16 @@ elements do not overlap*/
   .profile__name-pen {
     align-items: center;
   }
+
+  .profile__name {
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 27px;
+  }
+
+  .profile__avatar-info {
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 620px) {
@@ -112,21 +124,17 @@ elements do not overlap*/
     margin: 0 auto 30px auto;
   }
 
-  .profile__name {
-    font-weight: 500;
-    font-size: 22px;
-    line-height: 27px;
-  }
-
   .profile__pen {
     width: 18px;
     height: 18px;
+    background-size: 7px 7px;
   }
 
   .profile__add-button {
     width: 282px;
     height: 50px;
     margin: 36px auto 0 auto;
+    background-size: 16px 16px;
   }
 
   .profile__name-pen {
@@ -137,7 +145,7 @@ elements do not overlap*/
 
   .profile__name-tag {
     font-size: 14px;
-    line-height: 27px;
+    line-height: 17px;
     margin: auto;
   }
 
@@ -150,5 +158,6 @@ elements do not overlap*/
 
   .profile__info {
     max-width: 100%;
+    padding: 0;
   }
 }
