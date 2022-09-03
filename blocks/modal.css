@@ -1,5 +1,6 @@
 .modal {
-  display: flex;
+  /*display: flex;*/
+  display: none;
   width: 100vw;
   height: 100vh;
   flex-direction: column;
@@ -58,6 +59,8 @@
   line-height: 17px;
   color: #000000;
   border: 0;
+  /*outline: none will remove border display when trying to enter text*/
+  outline: none;
   margin: 0 0 13px 0;
   width: 358px;
   padding: 0;
@@ -102,11 +105,53 @@
   box-sizing: border-box;
   flex-shrink: 0;
   margin-left: auto;
-  background-color: none;
   border: 0;
 }
 
 .modal__button:hover {
   background-color: rgba(0, 0, 0, 0.8);
   transition: background-color 0.1s linear 0.1s;
+}
+
+.modal__close:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 620px) {
+  .content__list {
+    max-width: 282px;
+    /*Increase the size of the content so that it puts
+      the picture blocks in one column*/
+    padding: 0 20px;
+  }
+
+  .modal__container {
+    min-width: 282px;
+    min-height: 360px;
+  }
+
+  .modal__content {
+    max-width: 282px;
+    max-height: 322px;
+  }
+
+  .modal__text {
+    font-size: 14px;
+    line-height: 14px;
+    width: 238px;
+  }
+
+  .modal__button {
+    width: 238px;
+    height: 46px;
+  }
+
+  .modal__form {
+    margin: 0 22px 25px 22px;
+  }
+
+  .modal__close {
+    width: 26px;
+    height: 26px;
+  }
 }
