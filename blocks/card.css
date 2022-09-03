@@ -39,6 +39,7 @@
   width: 21px;
   height: 18px;
   border: none;
+  background-repeat: no-repeat;
 }
 
 .card__heart:hover {
