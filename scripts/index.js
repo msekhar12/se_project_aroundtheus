@@ -34,3 +34,27 @@ let initialCards = [
     link: "https://code.s3.yandex.net/web-code/lago.jpg",
   },
 ];
+
+let profile_pen = document.querySelector(".profile__pen");
+//console.log(profile_pen);
+
+profile_pen.addEventListener("click", function (event) {
+  let modal_open = document.querySelector(".modal__open");
+  let profile_name = document.querySelector(".profile__name");
+  let profile_name_tag = document.querySelector(".profile__name-tag");
+  let modal_text = document.querySelectorAll(".modal__text");
+
+  user_name = profile_name.textContent;
+  user_tag = profile_name_tag.textContent;
+  modal_text[0].value = user_name;
+  modal_text[1].value = user_tag;
+
+  modal_open.setAttribute("style", "display:flex");
+});
+
+let modal_close = document.querySelector(".modal__close");
+
+modal_close.addEventListener("click", function (event) {
+  let modal_open = document.querySelector(".modal__open");
+  modal_open.setAttribute("style", "display:none");
+});
