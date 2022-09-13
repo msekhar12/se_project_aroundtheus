@@ -77,6 +77,26 @@ function handleProfileFormSubmit(event) {
 
   profileName.textContent = modalNameText.value;
   profileNameTag.textContent = modalJobText.value;
+  let modalOpen = document.querySelector(".modal__open");
+  modalOpen.setAttribute("style", "display:none");
 }
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
+
+// Add cards using template logic
+let cardTemplate = document.querySelector("#card").content;
+let cardElement = cardTemplate.querySelector(".card").cloneNode(true);
+
+//The following line of code is working perfectly.
+cardElement.querySelector(".card__image").src = "./images/yosemite-valley.jpg";
+
+//The following line will expand the image
+//cardElement.querySelector(".card__image").src = "https://code.s3.yandex.net/web-code/yosemite.jpg";
+
+cardElement.querySelector(".card__image").alt = "Yosemite Valley";
+
+cardElement.querySelector(".card__label-text").textContent = "Yosemite Valley";
+
+contentList = document.querySelector(".content__list");
+
+contentList.append(cardElement);
