@@ -87,16 +87,25 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 let cardTemplate = document.querySelector("#card").content;
 let cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
-//The following line of code is working perfectly.
-cardElement.querySelector(".card__image").src = "./images/yosemite-valley.jpg";
+function getCardElement(data) {
+  // Add cards using template logic
+  let cardTemplate = document.querySelector("#card").content;
+  let cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
-//The following line will expand the image
-//cardElement.querySelector(".card__image").src = "https://code.s3.yandex.net/web-code/yosemite.jpg";
+  cardElement.querySelector(".card__image").src = data.link;
 
-cardElement.querySelector(".card__image").alt = "Yosemite Valley";
+  cardElement.querySelector(".card__image").alt = data.name;
 
-cardElement.querySelector(".card__label-text").textContent = "Yosemite Valley";
+  cardElement.querySelector(".card__label-text").textContent = data.name;
 
+  return cardElement;
+}
+
+// Read the content__list class (Un-ordered list)
+// Then add list items to this in a loop.
+// list item is nothing but a card
 contentList = document.querySelector(".content__list");
-
-contentList.append(cardElement);
+for (data of initialCards) {
+  contentList.append(getCardElement(data));
+  let i = 1;
+}
