@@ -107,5 +107,4 @@ function getCardElement(data) {
 contentList = document.querySelector(".content__list");
 for (data of initialCards) {
   contentList.append(getCardElement(data));
-  let i = 1;
 }
