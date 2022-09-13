@@ -68,6 +68,36 @@
   padding: 0;
 }
 
+.modal__name-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  border: 0;
+  /*outline: none will remove border display when trying to enter text*/
+  outline: none;
+  margin: 0 0 13px 0;
+  width: 358px;
+  padding: 0;
+}
+
+.modal__job-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  border: 0;
+  /*outline: none will remove border display when trying to enter text*/
+  outline: none;
+  margin: 0 0 13px 0;
+  width: 358px;
+  padding: 0;
+}
+
 .modal__name-line {
   flex-grow: 1;
   opacity: 0.2;
@@ -137,12 +167,17 @@
     max-height: 322px;
   }
 
-  .modal__text {
+  .modal__name-text {
     font-size: 14px;
     line-height: 14px;
     width: 238px;
   }
 
+  .modal__job-text {
+    font-size: 14px;
+    line-height: 14px;
+    width: 238px;
+  }
   .modal__button {
     width: 238px;
     height: 46px;

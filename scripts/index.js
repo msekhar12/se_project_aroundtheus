@@ -35,26 +35,48 @@ let initialCards = [
   },
 ];
 
-let profile_pen = document.querySelector(".profile__pen");
-//console.log(profile_pen);
+// Handle profile pen button
+let profilePen = document.querySelector(".profile__pen");
 
-profile_pen.addEventListener("click", function (event) {
-  let modal_open = document.querySelector(".modal__open");
-  let profile_name = document.querySelector(".profile__name");
-  let profile_name_tag = document.querySelector(".profile__name-tag");
-  let modal_text = document.querySelectorAll(".modal__text");
+profilePen.addEventListener("click", function (event) {
+  let modalOpen = document.querySelector(".modal__open");
+  let profileName = document.querySelector(".profile__name");
+  let profileNameTag = document.querySelector(".profile__name-tag");
+  let modalNameText = document.querySelector(".modal__name-text");
+  let modalJobText = document.querySelector(".modal__job-text");
 
-  user_name = profile_name.textContent;
-  user_tag = profile_name_tag.textContent;
-  modal_text[0].value = user_name;
-  modal_text[1].value = user_tag;
+  userName = profileName.textContent;
+  userTag = profileNameTag.textContent;
+  modalNameText.value = userName;
+  modalJobText.value = userTag;
 
-  modal_open.setAttribute("style", "display:flex");
+  modalOpen.setAttribute("style", "display:flex");
 });
 
-let modal_close = document.querySelector(".modal__close");
+// Handle modal close
+let modalClose = document.querySelector(".modal__close");
 
-modal_close.addEventListener("click", function (event) {
-  let modal_open = document.querySelector(".modal__open");
-  modal_open.setAttribute("style", "display:none");
+modalClose.addEventListener("click", function (event) {
+  let modalOpen = document.querySelector(".modal__open");
+  modalOpen.setAttribute("style", "display:none");
 });
+
+// Handle modal Form
+const profileFormElement = document.querySelector(".modal__form");
+
+function handleProfileFormSubmit(event) {
+  // Without the following line (PreventDefault()), the page will be reloaded on submission.
+  // This will prevent us from seeing the changes and persisting the changes
+  // onto the page
+  event.preventDefault();
+  let modalNameText = event.target.querySelector(".modal__name-text");
+  let modalJobText = event.target.querySelector(".modal__job-text");
+
+  let profileName = document.querySelector(".profile__name");
+  let profileNameTag = document.querySelector(".profile__name-tag");
+
+  profileName.textContent = modalNameText.value;
+  profileNameTag.textContent = modalJobText.value;
+}
+
+profileFormElement.addEventListener("submit", handleProfileFormSubmit);
