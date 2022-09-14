@@ -1,17 +1,3 @@
-/*let initialCards = [
-  { name: "Yosemite Valley", link: "../images/yosemite-valley.jpg" },
-  { name: "Lake Louise", link: "../images/lake-louise.png" },
-  { name: "Bald Mountains", link: "../images/bald-mountains.png" },
-  { name: "Latemar", link: "../images/latemar.png" },
-  {
-    name: "Vanoise National Park",
-    link: "../images/vanoise-national-park.jpg",
-  },
-  { name: "Lago di Braies", link: "../images/lago-di-braies.png" },
-];
-
-console.log(initialCards);*/
-
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -65,10 +51,10 @@ function closeProfileModal() {
   profileModal.classList.remove("profile-modal_open");
 }
 
-let profilePen = document.querySelector(".profile__pen");
+const profilePen = document.querySelector(".profile__pen");
 
 function editProfile(event) {
-  let profileModal = document.querySelector(".profile-modal");
+  const profileModal = document.querySelector(".profile-modal");
   fillProfileForm(profileModal);
   openProfileModal();
 }
@@ -76,8 +62,7 @@ function editProfile(event) {
 profilePen.addEventListener("click", editProfile);
 
 // Handle profile modal close button click
-let profileModalClose = document.querySelector(".profile-modal__close");
-console.log(profileModalClose);
+const profileModalClose = document.querySelector(".profile-modal__close");
 
 profileModalClose.addEventListener("click", closeProfileModal);
 
@@ -90,31 +75,31 @@ function handleProfileFormSubmit(event) {
   // onto the page
   event.preventDefault();
 
-  let profileModalNameText = event.target.querySelector(
+  const profileModalNameText = event.target.querySelector(
     ".profile-modal__name-text"
   );
-  let profileModalJobText = event.target.querySelector(
+  const profileModalJobText = event.target.querySelector(
     ".profile-modal__job-text"
   );
 
-  let profileName = document.querySelector(".profile__name");
-  let profileNameTag = document.querySelector(".profile__name-tag");
+  const profileName = document.querySelector(".profile__name");
+  const profileNameTag = document.querySelector(".profile__name-tag");
 
   profileName.textContent = profileModalNameText.value;
   profileNameTag.textContent = profileModalJobText.value;
-  let modalOpen = document.querySelector(".modal__open");
+
   closeProfileModal();
 }
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
 // Add cards using template logic
-let cardTemplate = document.querySelector("#card").content;
-let cardElement = cardTemplate.querySelector(".card").cloneNode(true);
+const cardTemplate = document.querySelector("#card").content;
 
 function getCardElement(data) {
   // Add cards using template logic
-  const cardTemplate = document.querySelector("#card").content;
+  //const cardTemplate = document.querySelector("#card").content;
+  // cardTemplate is already defined outside the function
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
   const cardImage = cardElement.querySelector(".card__image");
