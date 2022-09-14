@@ -22,12 +22,15 @@ const initialCards = [
   },
 ];
 
+// Create all gloabal variables (for performance improvement)
+// These are referenced in functions
+const modal = document.querySelector(".modal");
+
 // Handle profile pen button click
 
 // Helper function to open profile form
-function openProfileModal() {
-  const profileModal = document.querySelector(".profile-modal");
-  profileModal.classList.add("profile-modal_open");
+function openModal() {
+  modal.classList.add("modal_open");
 }
 
 // Helper function to fill the profile form once visible
@@ -45,10 +48,8 @@ function fillProfileForm(profileModal) {
 }
 
 // Helper function to close profile form
-function closeProfileModal() {
-  const profileModal = document.querySelector(".profile-modal");
-  console.log(profileModal);
-  profileModal.classList.remove("profile-modal_open");
+function closeModal() {
+  modal.classList.remove("modal_open");
 }
 
 const profilePen = document.querySelector(".profile__pen");
@@ -56,7 +57,7 @@ const profilePen = document.querySelector(".profile__pen");
 function editProfile(event) {
   const profileModal = document.querySelector(".profile-modal");
   fillProfileForm(profileModal);
-  openProfileModal();
+  openModal();
 }
 
 profilePen.addEventListener("click", editProfile);
@@ -64,7 +65,7 @@ profilePen.addEventListener("click", editProfile);
 // Handle profile modal close button click
 const profileModalClose = document.querySelector(".profile-modal__close");
 
-profileModalClose.addEventListener("click", closeProfileModal);
+profileModalClose.addEventListener("click", closeModal);
 
 // Handle modal Form
 const profileFormElement = document.querySelector(".profile-modal__form");
@@ -88,7 +89,7 @@ function handleProfileFormSubmit(event) {
   profileName.textContent = profileModalNameText.value;
   profileNameTag.textContent = profileModalJobText.value;
 
-  closeProfileModal();
+  closeModal();
 }
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);

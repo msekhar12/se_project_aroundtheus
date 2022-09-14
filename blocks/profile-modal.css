@@ -1,40 +1,4 @@
 .profile-modal {
-  width: 100vw;
-  height: 100vh;
-  flex-direction: column;
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  visibility: none;
-  opacity: 0;
-  /*The poniter-events:none must be set when the form is NOT visible.
-  If NOT set, then the user can still see the pointer changing to clickable 
-  pointer when hovered over the invisible form elements. If clicked, 
-  the events are processed, as if the form is visible*/
-  pointer-events: none;
-  transition: visibility 0s 0.5s opacity 0.5s linear;
-}
-
-/*
-.profile-modal_open should not have a delay for visibility transition 
-(when we open a popup visibility will become visible immediately
-*/
-.profile-modal_open {
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s, opacity 0.5s linear;
-  /*The poniter-events:all must be set when the form is visible.
-  If NOT set, then the user cannot interact with the form*/
-  pointer-events: all;
-}
-
-.profile-modal__container {
   min-width: 480px;
   min-height: 380px;
   display: flex;
@@ -177,7 +141,7 @@
     padding: 0 20px;
   }
 
-  .profile-modal__container {
+  .profile-modal {
     min-width: 282px;
     min-height: 360px;
   }
