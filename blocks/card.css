@@ -43,6 +43,7 @@
   height: 18px;
   border: none;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .card__heart:hover {

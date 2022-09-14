@@ -1,9 +1,8 @@
-.modal {
+.profile-modal {
   width: 100vw;
   height: 100vh;
   flex-direction: column;
   background: rgba(0, 0, 0, 0.5);
-  margin: auto;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -11,20 +10,39 @@
   z-index: 1;
   justify-content: center;
   align-items: center;
+  display: flex;
+  visibility: none;
+  opacity: 0;
+  /*The poniter-events:none must be set when the form is NOT visible.
+  If NOT set, then the user can still see the pointer changing to clickable 
+  pointer when hovered over the invisible form elements. If clicked, 
+  the events are processed, as if the form is visible*/
+  pointer-events: none;
+  transition: visibility 0s 0.5s opacity 0.5s linear;
 }
 
-.modal__open {
-  display: none;
+/*
+.profile-modal_open should not have a delay for visibility transition 
+(when we open a popup visibility will become visible immediately
+*/
+.profile-modal_open {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.5s linear;
+  /*The poniter-events:all must be set when the form is visible.
+  If NOT set, then the user cannot interact with the form*/
+  pointer-events: all;
 }
 
-.modal__container {
+.profile-modal__container {
   min-width: 480px;
   min-height: 380px;
   display: flex;
   flex-direction: column;
+  margin: auto;
 }
 
-.modal__content {
+.profile-modal__content {
   display: flex;
   flex-direction: column;
   max-width: 430px;
@@ -36,7 +54,7 @@
   margin: auto;
 }
 
-.modal__heading {
+.profile-modal__heading {
   font-family: "Inter";
   font-style: normal;
   font-weight: 900;
@@ -47,13 +65,13 @@
   color: #000000;
 }
 
-.modal__form {
+.profile-modal__form {
   display: flex;
   flex-direction: column;
   margin: 0 36px 54px 36px;
 }
 
-.modal__text {
+.profile-modal__text {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -68,7 +86,7 @@
   padding: 0;
 }
 
-.modal__name-text {
+.profile-modal__name-text {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -83,7 +101,7 @@
   padding: 0;
 }
 
-.modal__job-text {
+.profile-modal__job-text {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -98,20 +116,20 @@
   padding: 0;
 }
 
-.modal__name-line {
+.profile-modal__name-line {
   flex-grow: 1;
   opacity: 0.2;
   border-bottom: 1px solid #000000;
   margin: 0 0 30px 0;
 }
-.modal__description-line {
+.profile-modal__description-line {
   flex-grow: 1;
   opacity: 0.2;
   border-bottom: 1px solid #000000;
   margin: 0 0 48px 0;
 }
 
-.modal__button {
+.profile-modal__button {
   width: 358px;
   height: 50px;
   background: #000000;
@@ -125,9 +143,10 @@
   color: #ffffff;
   padding: 0;
   border: 0;
+  cursor: pointer;
 }
 
-.modal__close {
+.profile-modal__close {
   background: url("../images/close_icon.svg");
   width: 50px;
   height: 50px;
@@ -138,14 +157,15 @@
   flex-shrink: 0;
   margin-left: auto;
   border: 0;
+  cursor: pointer;
 }
 
-.modal__button:hover {
+.profile-modal__button:hover {
   background-color: rgba(0, 0, 0, 0.8);
   transition: background-color 0.1s linear 0.1s;
 }
 
-.modal__close:hover {
+.profile-modal__close:hover {
   opacity: 0.6;
 }
 
@@ -157,37 +177,37 @@
     padding: 0 20px;
   }
 
-  .modal__container {
+  .profile-modal__container {
     min-width: 282px;
     min-height: 360px;
   }
 
-  .modal__content {
+  .profile-modal__content {
     max-width: 282px;
     max-height: 322px;
   }
 
-  .modal__name-text {
+  .profile-modal__name-text {
     font-size: 14px;
     line-height: 14px;
     width: 238px;
   }
 
-  .modal__job-text {
+  .profile-modal__job-text {
     font-size: 14px;
     line-height: 14px;
     width: 238px;
   }
-  .modal__button {
+  .profile-modal__button {
     width: 238px;
     height: 46px;
   }
 
-  .modal__form {
+  .profile-modal__form {
     margin: 0 22px 25px 22px;
   }
 
-  .modal__close {
+  .profile-modal__close {
     width: 26px;
     height: 26px;
   }

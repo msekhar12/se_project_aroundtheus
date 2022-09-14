@@ -11,7 +11,8 @@
 ];
 
 console.log(initialCards);*/
-let initialCards = [
+
+const initialCards = [
   {
     name: "Yosemite Valley",
     link: "https://code.s3.yandex.net/web-code/yosemite.jpg",
@@ -35,50 +36,74 @@ let initialCards = [
   },
 ];
 
-// Handle profile pen button
+// Handle profile pen button click
+
+// Helper function to open profile form
+function openProfileModal() {
+  const profileModal = document.querySelector(".profile-modal");
+  profileModal.classList.add("profile-modal_open");
+}
+
+// Helper function to fill the profile form once visible
+function fillProfileForm(profileModal) {
+  const profileName = document.querySelector(".profile__name");
+  const profileNameTag = document.querySelector(".profile__name-tag");
+  const profileModallNameText = profileModal.querySelector(
+    ".profile-modal__name-text"
+  );
+  const profileModalJobText = profileModal.querySelector(
+    ".profile-modal__job-text"
+  );
+  profileModallNameText.value = profileName.textContent;
+  profileModalJobText.value = profileNameTag.textContent;
+}
+
+// Helper function to close profile form
+function closeProfileModal() {
+  const profileModal = document.querySelector(".profile-modal");
+  console.log(profileModal);
+  profileModal.classList.remove("profile-modal_open");
+}
+
 let profilePen = document.querySelector(".profile__pen");
 
-profilePen.addEventListener("click", function (event) {
-  let modalOpen = document.querySelector(".modal__open");
-  let profileName = document.querySelector(".profile__name");
-  let profileNameTag = document.querySelector(".profile__name-tag");
-  let modalNameText = document.querySelector(".modal__name-text");
-  let modalJobText = document.querySelector(".modal__job-text");
+function editProfile(event) {
+  let profileModal = document.querySelector(".profile-modal");
+  fillProfileForm(profileModal);
+  openProfileModal();
+}
 
-  userName = profileName.textContent;
-  userTag = profileNameTag.textContent;
-  modalNameText.value = userName;
-  modalJobText.value = userTag;
+profilePen.addEventListener("click", editProfile);
 
-  modalOpen.setAttribute("style", "display:flex");
-});
+// Handle profile modal close button click
+let profileModalClose = document.querySelector(".profile-modal__close");
+console.log(profileModalClose);
 
-// Handle modal close
-let modalClose = document.querySelector(".modal__close");
-
-modalClose.addEventListener("click", function (event) {
-  let modalOpen = document.querySelector(".modal__open");
-  modalOpen.setAttribute("style", "display:none");
-});
+profileModalClose.addEventListener("click", closeProfileModal);
 
 // Handle modal Form
-const profileFormElement = document.querySelector(".modal__form");
+const profileFormElement = document.querySelector(".profile-modal__form");
 
 function handleProfileFormSubmit(event) {
   // Without the following line (PreventDefault()), the page will be reloaded on submission.
   // This will prevent us from seeing the changes and persisting the changes
   // onto the page
   event.preventDefault();
-  let modalNameText = event.target.querySelector(".modal__name-text");
-  let modalJobText = event.target.querySelector(".modal__job-text");
+
+  let profileModalNameText = event.target.querySelector(
+    ".profile-modal__name-text"
+  );
+  let profileModalJobText = event.target.querySelector(
+    ".profile-modal__job-text"
+  );
 
   let profileName = document.querySelector(".profile__name");
   let profileNameTag = document.querySelector(".profile__name-tag");
 
-  profileName.textContent = modalNameText.value;
-  profileNameTag.textContent = modalJobText.value;
+  profileName.textContent = profileModalNameText.value;
+  profileNameTag.textContent = profileModalJobText.value;
   let modalOpen = document.querySelector(".modal__open");
-  modalOpen.setAttribute("style", "display:none");
+  closeProfileModal();
 }
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
@@ -89,14 +114,15 @@ let cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
 function getCardElement(data) {
   // Add cards using template logic
-  let cardTemplate = document.querySelector("#card").content;
-  let cardElement = cardTemplate.querySelector(".card").cloneNode(true);
+  const cardTemplate = document.querySelector("#card").content;
+  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
-  cardElement.querySelector(".card__image").src = data.link;
+  const cardImage = cardElement.querySelector(".card__image");
+  const cardLabel = cardElement.querySelector(".card__label-text");
 
-  cardElement.querySelector(".card__image").alt = data.name;
-
-  cardElement.querySelector(".card__label-text").textContent = data.name;
+  cardImage.src = data.link;
+  cardImage.alt = data.name;
+  cardLabel.textContent = data.name;
 
   return cardElement;
 }
@@ -105,6 +131,4 @@ function getCardElement(data) {
 // Then add list items to this in a loop.
 // list item is nothing but a card
 contentList = document.querySelector(".content__list");
-for (data of initialCards) {
-  contentList.append(getCardElement(data));
-}
+initialCards.forEach((data) => contentList.append(getCardElement(data)));
