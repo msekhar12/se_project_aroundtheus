@@ -18,7 +18,8 @@
     pointer when hovered over the invisible form elements. If clicked, 
     the events are processed, as if the form is visible*/
   pointer-events: none;
-  transition: visibility 0s 0.5s opacity 0.5s linear;
+  /*This transition will make the modal fade away, instead of abruptly closing*/
+  transition: visibility 0s 0.5s, opacity 0.5s linear;
 }
 
 /*
@@ -27,7 +28,9 @@
   */
 .modal_open {
   visibility: visible;
+  /*The following opacity setting is necessary even thouh we are using opacity in transition*/
   opacity: 1;
+  /*This transition will make the modal slowly be visible instead of abruptly being visible*/
   transition: visibility 0s, opacity 0.5s linear;
   /*The poniter-events:all must be set when the form is visible.
     If NOT set, then the user cannot interact with the form*/
