@@ -82,6 +82,7 @@
 */
 .card__heart_like {
   background: url("../images/like.svg");
+  background-repeat: no-repeat;
 }
 
 .card__heart-like:hover {
