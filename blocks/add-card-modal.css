@@ -149,12 +149,9 @@
   }
 
   .add-card-modal__close {
-    width: 26px;
-    height: 26px;
-  }
-
-  .add-card-modal__close {
     left: 282px;
     top: 10px;
+    width: 26px;
+    height: 26px;
   }
 }
