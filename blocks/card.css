@@ -70,6 +70,7 @@
   opacity: 0.5;
 }
 
+/*
 .card__heart-like {
   background: url("../images/like.svg");
   width: 21px;
@@ -77,6 +78,10 @@
   border: none;
   background-repeat: no-repeat;
   cursor: pointer;
+}
+*/
+.card__heart_like {
+  background: url("../images/like.svg");
 }
 
 .card__heart-like:hover {

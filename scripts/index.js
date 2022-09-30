@@ -105,7 +105,7 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
 // Card Functions
 
-function toggleLike(event) {
+/*function toggleLike(event) {
   if (event.target.classList.contains("card__heart-like")) {
     event.target.classList.remove("card__heart-like");
     event.target.classList.add("card__heart");
@@ -113,6 +113,10 @@ function toggleLike(event) {
     event.target.classList.remove("card__heart");
     event.target.classList.add("card__heart-like");
   }
+}*/
+
+function toggleLike(event) {
+  event.target.classList.toggle("card__heart_like");
 }
 
 function deleteCard(event) {
@@ -204,7 +208,3 @@ function createNewCard(event) {
 }
 
 addCardCreateButton.addEventListener("click", createNewCard);
-
-/*---------------------------------*/
-/* Handle click on images          */
-/*---------------------------------*/

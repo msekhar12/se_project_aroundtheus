@@ -19,6 +19,7 @@
     the events are processed, as if the form is visible*/
   pointer-events: none;
   /*This transition will make the modal fade away, instead of abruptly closing*/
+  /*The transition does not apply for the display property. You have to use visibility property*/
   transition: visibility 0s 0.5s, opacity 0.5s linear;
 }
 
