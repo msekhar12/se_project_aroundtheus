@@ -22,6 +22,9 @@ const initialCards = [
   },
 ];
 
+// Preload some elements to avoid redundant loading
+const imageModalContainer = document.querySelector(".image-modal-container");
+
 /*---------------------------------*/
 /* All General Helper Functions    */
 /*---------------------------------*/
@@ -116,6 +119,22 @@ function deleteCard(event) {
   event.target.closest(".card").remove();
 }
 
+function openImageModal(event) {
+  const imageURL = event.target.src;
+  const imageText = event.target.alt;
+  imageModalContainer.querySelector(".image-modal__expanded").src = imageURL;
+  imageModalContainer.querySelector(".image-modal__label").textContent =
+    imageText;
+  imageModalContainer.closest(".modal").classList.add("modal_open");
+}
+
+function closeImageModal(event) {
+  imageModalContainer.closest(".modal").classList.remove("modal_open");
+}
+
+const imageModalClose = document.querySelector(".image-modal-container__close");
+imageModalClose.addEventListener("click", closeImageModal);
+
 // Add cards using template logic
 const cardTemplate = document.querySelector("#card").content;
 
@@ -136,6 +155,7 @@ function getCardElement(data) {
 
   cardLikeButton.addEventListener("click", toggleLike);
   deleteCardButton.addEventListener("click", deleteCard);
+  cardImage.addEventListener("click", openImageModal);
 
   return cardElement;
 }
@@ -184,3 +204,7 @@ function createNewCard(event) {
 }
 
 addCardCreateButton.addEventListener("click", createNewCard);
+
+/*---------------------------------*/
+/* Handle click on images          */
+/*---------------------------------*/

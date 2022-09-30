@@ -49,11 +49,6 @@
   padding: 0;
 }
 
-/*
-.add-card-modal__text::placeholder {
-  color: #c4c4c4;
-}*/
-
 .add-card-modal__image-url {
   font-family: "Inter";
   font-style: normal;

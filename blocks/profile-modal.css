@@ -33,20 +33,6 @@
   flex-direction: column;
   margin: 0 36px 54px 36px;
 }
-/*
-.profile-modal__text {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-  color: #000000;
-  border: 0;
-  outline: none;
-  margin: 0 0 13px 0;
-  width: 358px;
-  padding: 0;
-}*/
 
 .profile-modal__name-text {
   font-family: "Inter";
@@ -132,13 +118,6 @@
 }
 
 @media screen and (max-width: 620px) {
-  .content__list {
-    max-width: 282px;
-    /*Increase the size of the content so that it puts
-      the picture blocks in one column*/
-    padding: 0 20px;
-  }
-
   .profile-modal {
     min-width: 282px;
     min-height: 360px;
