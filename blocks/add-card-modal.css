@@ -3,7 +3,6 @@
   min-height: 380px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
 .add-card-modal__content {
@@ -124,44 +123,37 @@
 }
 
 @media screen and (max-width: 620px) {
-  .content__list {
-    max-width: 282px;
-    /*Increase the size of the content so that it puts
-        the picture blocks in one column*/
-    padding: 0 20px;
-  }
-
-  .profile-modal {
+  .add-card-modal {
     min-width: 282px;
     min-height: 360px;
   }
 
-  .profile-modal__content {
+  .add-card-modal__content {
     max-width: 282px;
     max-height: 322px;
   }
 
-  .profile-modal__name-text {
+  .add-card-modal__title-text {
     font-size: 14px;
     line-height: 14px;
     width: 238px;
   }
 
-  .profile-modal__job-text {
+  .add-card-modal__image-url {
     font-size: 14px;
     line-height: 14px;
     width: 238px;
   }
-  .profile-modal__button {
+  .add-card-modal__button {
     width: 238px;
     height: 46px;
   }
 
-  .profile-modal__form {
+  .add-card-modal__form {
     margin: 0 22px 25px 22px;
   }
 
-  .profile-modal__close {
+  .add-card-modal__close {
     width: 26px;
     height: 26px;
   }

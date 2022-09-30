@@ -100,6 +100,22 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 /* Handle cards addition logic     */
 /*---------------------------------*/
 
+// Card Functions
+
+function toggleLike(event) {
+  if (event.target.classList.contains("card__heart-like")) {
+    event.target.classList.remove("card__heart-like");
+    event.target.classList.add("card__heart");
+  } else if (event.target.classList.contains("card__heart")) {
+    event.target.classList.remove("card__heart");
+    event.target.classList.add("card__heart-like");
+  }
+}
+
+function deleteCard(event) {
+  event.target.closest(".card").remove();
+}
+
 // Add cards using template logic
 const cardTemplate = document.querySelector("#card").content;
 
@@ -111,10 +127,15 @@ function getCardElement(data) {
 
   const cardImage = cardElement.querySelector(".card__image");
   const cardLabel = cardElement.querySelector(".card__label-text");
+  const cardLikeButton = cardElement.querySelector(".card__heart");
+  const deleteCardButton = cardElement.querySelector(".card__delete");
 
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardLabel.textContent = data.name;
+
+  cardLikeButton.addEventListener("click", toggleLike);
+  deleteCardButton.addEventListener("click", deleteCard);
 
   return cardElement;
 }
@@ -163,34 +184,3 @@ function createNewCard(event) {
 }
 
 addCardCreateButton.addEventListener("click", createNewCard);
-
-/*---------------------------------*/
-/* Like button logic               */
-/*---------------------------------*/
-// The classList.toggle() is NOT working. Not sure why.
-/*function toggleLike(event) {
-  event.target.classList.toggle("card__heart-like");
-}*/
-
-function toggleLike(event) {
-  if (event.target.classList.contains("card__heart-like")) {
-    event.target.classList.remove("card__heart-like");
-    event.target.classList.add("card__heart");
-  } else if (event.target.classList.contains("card__heart")) {
-    event.target.classList.remove("card__heart");
-    event.target.classList.add("card__heart-like");
-  }
-}
-
-const cardLikeButtons = document.querySelectorAll(".card__heart");
-console.log(cardLikeButtons);
-
-// You have to add the event listener to each heart
-cardLikeButtons.forEach((item) => {
-  addEventListener("click", toggleLike);
-  console.log(item);
-});
-
-/*---------------------------------*/
-/* Delete button logic             */
-/*---------------------------------*/
