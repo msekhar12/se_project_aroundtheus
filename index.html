@@ -58,14 +58,14 @@
             <input
               type="text"
               class="profile-modal__name-text"
-              value="Name"
+              placeholder="Name"
               required
             />
             <span class="profile-modal__name-line"></span>
             <input
               type="text"
               class="profile-modal__job-text"
-              value="Description"
+              placeholder="Description"
               required
             />
             <span class="profile-modal__description-line"></span>
@@ -74,9 +74,39 @@
         </div>
       </div>
     </div>
+
+    <div class="modal">
+      <div class="add-card-modal">
+        <button class="add-card-modal__close" type="button"></button>
+        <div class="add-card-modal__content">
+          <h3 class="add-card-modal__heading">New Place</h3>
+          <form class="add-card-modal__form">
+            <input
+              type="text"
+              class="add-card-modal__title-text"
+              placeholder="Title"
+              required
+            />
+            <span class="add-card-modal__name-line"></span>
+            <input
+              type="text"
+              class="add-card-modal__image-url"
+              placeholder="Image Link"
+              required
+            />
+            <span class="add-card-modal__image-url-line"></span>
+            <button type="submit" class="add-card-modal__button">Create</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <template id="card">
       <li class="card">
-        <img class="card__image" />
+        <div class="card__image-and-delete">
+          <img class="card__image" />
+          <img class="card__delete" />
+        </div>
         <div class="card__label">
           <h2 class="card__label-text"></h2>
           <button class="card__heart" type="button"></button>

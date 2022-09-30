@@ -22,16 +22,21 @@ const initialCards = [
   },
 ];
 
-// Create all gloabal variables (for performance improvement)
-// These are referenced in functions
-const modal = document.querySelector(".modal");
+/*---------------------------------*/
+/* All General Helper Functions    */
+/*---------------------------------*/
 
-// Handle profile pen button click
-
-// Helper function to open profile form
-function openModal() {
+function openModal(modal) {
   modal.classList.add("modal_open");
 }
+
+function closeModal(modal) {
+  modal.classList.remove("modal_open");
+}
+
+/*---------------------------------*/
+/* Handle profile pen button click */
+/*---------------------------------*/
 
 // Helper function to fill the profile form once visible
 function fillProfileForm(profileModal) {
@@ -47,17 +52,12 @@ function fillProfileForm(profileModal) {
   profileModalJobText.value = profileNameTag.textContent;
 }
 
-// Helper function to close profile form
-function closeModal() {
-  modal.classList.remove("modal_open");
-}
-
 const profilePen = document.querySelector(".profile__pen");
 
 function editProfile(event) {
   const profileModal = document.querySelector(".profile-modal");
   fillProfileForm(profileModal);
-  openModal();
+  openModal(profileModal.closest(".modal"));
 }
 
 profilePen.addEventListener("click", editProfile);
@@ -65,7 +65,9 @@ profilePen.addEventListener("click", editProfile);
 // Handle profile modal close button click
 const profileModalClose = document.querySelector(".profile-modal__close");
 
-profileModalClose.addEventListener("click", closeModal);
+profileModalClose.addEventListener("click", () => {
+  closeModal(profileModalClose.closest(".modal"));
+});
 
 // Handle modal Form
 const profileFormElement = document.querySelector(".profile-modal__form");
@@ -76,23 +78,27 @@ function handleProfileFormSubmit(event) {
   // onto the page
   event.preventDefault();
 
-  const profileModalNameText = event.target.querySelector(
+  const profileModalNameText = document.querySelector(
     ".profile-modal__name-text"
   );
-  const profileModalJobText = event.target.querySelector(
+  const profileModalJobText = document.querySelector(
     ".profile-modal__job-text"
   );
-
   const profileName = document.querySelector(".profile__name");
   const profileNameTag = document.querySelector(".profile__name-tag");
 
   profileName.textContent = profileModalNameText.value;
   profileNameTag.textContent = profileModalJobText.value;
 
-  closeModal();
+  closeModal(profileModalClose.closest(".modal"));
 }
 
+// Handle profile edit form submit
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
+
+/*---------------------------------*/
+/* Handle cards addition logic     */
+/*---------------------------------*/
 
 // Add cards using template logic
 const cardTemplate = document.querySelector("#card").content;
@@ -113,8 +119,78 @@ function getCardElement(data) {
   return cardElement;
 }
 
-// Read the content__list class (Un-ordered list)
-// Then add list items to this in a loop.
-// list item is nothing but a card
+// Fill with default cards initially
 contentList = document.querySelector(".content__list");
 initialCards.forEach((data) => contentList.append(getCardElement(data)));
+
+/*---------------------------------*/
+/* New cards addition logic        */
+/*---------------------------------*/
+
+// Handle add card modal close button click
+const addCardModalClose = document.querySelector(".add-card-modal__close");
+
+addCardModalClose.addEventListener("click", () => {
+  closeModal(addCardModalClose.closest(".modal"));
+});
+
+// Handle the ADD button (to add cards)
+const addCardButton = document.querySelector(".profile__add-button");
+
+function addCardButtonClick(event) {
+  const addCardModal = document.querySelector(".add-card-modal");
+  openModal(addCardModal.closest(".modal"));
+}
+
+addCardButton.addEventListener("click", addCardButtonClick);
+
+const addCardCreateButton = document.querySelector(".add-card-modal__button");
+
+function createNewCard(event) {
+  event.preventDefault();
+  const cardTitle = document.querySelector(".add-card-modal__title-text").value;
+
+  const cardURL = document.querySelector(".add-card-modal__image-url").value;
+
+  if (cardURL) {
+    const card = getCardElement({ name: cardTitle, link: cardURL });
+    contentList.prepend(card);
+  }
+
+  closeModal(addCardModalClose.closest(".modal"));
+  // Reset the form so that the previous values are not loaded
+  document.querySelector(".add-card-modal__form").reset();
+}
+
+addCardCreateButton.addEventListener("click", createNewCard);
+
+/*---------------------------------*/
+/* Like button logic               */
+/*---------------------------------*/
+// The classList.toggle() is NOT working. Not sure why.
+/*function toggleLike(event) {
+  event.target.classList.toggle("card__heart-like");
+}*/
+
+function toggleLike(event) {
+  if (event.target.classList.contains("card__heart-like")) {
+    event.target.classList.remove("card__heart-like");
+    event.target.classList.add("card__heart");
+  } else if (event.target.classList.contains("card__heart")) {
+    event.target.classList.remove("card__heart");
+    event.target.classList.add("card__heart-like");
+  }
+}
+
+const cardLikeButtons = document.querySelectorAll(".card__heart");
+console.log(cardLikeButtons);
+
+// You have to add the event listener to each heart
+cardLikeButtons.forEach((item) => {
+  addEventListener("click", toggleLike);
+  console.log(item);
+});
+
+/*---------------------------------*/
+/* Delete button logic             */
+/*---------------------------------*/
