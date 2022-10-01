@@ -33,6 +33,10 @@
   left: 250px;
 }
 
+.card__delete:hover {
+  opacity: 0.6;
+}
+
 .card__label {
   background: white;
   display: flex;

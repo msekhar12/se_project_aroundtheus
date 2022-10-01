@@ -22,13 +22,32 @@ const initialCards = [
   },
 ];
 
-// Preload some elements to avoid redundant loading
+// Global variable to support image modal
 const imageModalContainer = document.querySelector(".image-modal-container");
+
+// Global variables to support Profile editing/saving
+const profilePen = document.querySelector(".profile__pen");
+const profileName = document.querySelector(".profile__name");
+const profileNameTag = document.querySelector(".profile__name-tag");
+const profileModal = document.querySelector(".profile-modal");
+const profileModalClose = document.querySelector(".profile-modal__close");
+const profileFormElement = document.querySelector(".profile-modal__form");
+
+// Global variables for card template
+const cardTemplate = document.querySelector("#card").content;
+
+// Global variable for all cards container
+const contentList = document.querySelector(".content__list");
+
+// Global variables to support new card addition logic
+const addCardModal = document.querySelector(".add-card-modal");
+const addCardModalClose = document.querySelector(".add-card-modal__close");
+const addCardButton = document.querySelector(".profile__add-button");
+const addCardFormElement = document.querySelector(".add-card-modal__form");
 
 /*---------------------------------*/
 /* All General Helper Functions    */
 /*---------------------------------*/
-
 function openModal(modal) {
   modal.classList.add("modal_open");
 }
@@ -40,40 +59,30 @@ function closeModal(modal) {
 /*---------------------------------*/
 /* Handle profile pen button click */
 /*---------------------------------*/
-
 // Helper function to fill the profile form once visible
 function fillProfileForm(profileModal) {
-  const profileName = document.querySelector(".profile__name");
-  const profileNameTag = document.querySelector(".profile__name-tag");
   const profileModallNameText = profileModal.querySelector(
     ".profile-modal__name-text"
   );
   const profileModalJobText = profileModal.querySelector(
     ".profile-modal__job-text"
   );
+
   profileModallNameText.value = profileName.textContent;
   profileModalJobText.value = profileNameTag.textContent;
 }
 
-const profilePen = document.querySelector(".profile__pen");
-
-function editProfile(event) {
-  const profileModal = document.querySelector(".profile-modal");
+function handleEditProfile(event) {
   fillProfileForm(profileModal);
   openModal(profileModal.closest(".modal"));
 }
 
-profilePen.addEventListener("click", editProfile);
+profilePen.addEventListener("click", handleEditProfile);
 
 // Handle profile modal close button click
-const profileModalClose = document.querySelector(".profile-modal__close");
-
 profileModalClose.addEventListener("click", () => {
   closeModal(profileModalClose.closest(".modal"));
 });
-
-// Handle modal Form
-const profileFormElement = document.querySelector(".profile-modal__form");
 
 function handleProfileFormSubmit(event) {
   // Without the following line (PreventDefault()), the page will be reloaded on submission.
@@ -81,14 +90,13 @@ function handleProfileFormSubmit(event) {
   // onto the page
   event.preventDefault();
 
-  const profileModalNameText = document.querySelector(
+  const profileModalNameText = profileModal.querySelector(
     ".profile-modal__name-text"
   );
-  const profileModalJobText = document.querySelector(
+
+  const profileModalJobText = profileModal.querySelector(
     ".profile-modal__job-text"
   );
-  const profileName = document.querySelector(".profile__name");
-  const profileNameTag = document.querySelector(".profile__name-tag");
 
   profileName.textContent = profileModalNameText.value;
   profileNameTag.textContent = profileModalJobText.value;
@@ -115,33 +123,36 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
   }
 }*/
 
-function toggleLike(event) {
+function handleToggleLike(event) {
   event.target.classList.toggle("card__heart_like");
 }
 
-function deleteCard(event) {
+function handleDeleteCard(event) {
   event.target.closest(".card").remove();
 }
 
-function openImageModal(event) {
+function handleOpenImageModal(event) {
   const imageURL = event.target.src;
   const imageText = event.target.alt;
-  imageModalContainer.querySelector(".image-modal__expanded").src = imageURL;
+  const imageModalExpanded = imageModalContainer.querySelector(
+    ".image-modal__expanded"
+  );
+  imageModalExpanded.src = imageURL;
+  imageModalExpanded.alt = imageText;
   imageModalContainer.querySelector(".image-modal__label").textContent =
     imageText;
-  imageModalContainer.closest(".modal").classList.add("modal_open");
+
+  openModal(imageModalContainer.closest(".modal"));
 }
 
-function closeImageModal(event) {
-  imageModalContainer.closest(".modal").classList.remove("modal_open");
+function handleCloseImageModal(event) {
+  closeModal(imageModalContainer.closest(".modal"));
 }
 
 const imageModalClose = document.querySelector(".image-modal-container__close");
-imageModalClose.addEventListener("click", closeImageModal);
+imageModalClose.addEventListener("click", handleCloseImageModal);
 
 // Add cards using template logic
-const cardTemplate = document.querySelector("#card").content;
-
 function getCardElement(data) {
   // Add cards using template logic
   //const cardTemplate = document.querySelector("#card").content;
@@ -157,15 +168,14 @@ function getCardElement(data) {
   cardImage.alt = data.name;
   cardLabel.textContent = data.name;
 
-  cardLikeButton.addEventListener("click", toggleLike);
-  deleteCardButton.addEventListener("click", deleteCard);
-  cardImage.addEventListener("click", openImageModal);
+  cardLikeButton.addEventListener("click", handleToggleLike);
+  deleteCardButton.addEventListener("click", handleDeleteCard);
+  cardImage.addEventListener("click", handleOpenImageModal);
 
   return cardElement;
 }
 
 // Fill with default cards initially
-contentList = document.querySelector(".content__list");
 initialCards.forEach((data) => contentList.append(getCardElement(data)));
 
 /*---------------------------------*/
@@ -173,38 +183,30 @@ initialCards.forEach((data) => contentList.append(getCardElement(data)));
 /*---------------------------------*/
 
 // Handle add card modal close button click
-const addCardModalClose = document.querySelector(".add-card-modal__close");
-
 addCardModalClose.addEventListener("click", () => {
   closeModal(addCardModalClose.closest(".modal"));
 });
 
 // Handle the ADD button (to add cards)
-const addCardButton = document.querySelector(".profile__add-button");
-
-function addCardButtonClick(event) {
-  const addCardModal = document.querySelector(".add-card-modal");
+function handleCardButtonClick(event) {
   openModal(addCardModal.closest(".modal"));
 }
 
-addCardButton.addEventListener("click", addCardButtonClick);
+addCardButton.addEventListener("click", handleCardButtonClick);
 
-const addCardCreateButton = document.querySelector(".add-card-modal__button");
+const cardTitle = document.querySelector(".add-card-modal__title-text");
+const cardURL = document.querySelector(".add-card-modal__image-url");
 
-function createNewCard(event) {
+function handleCreateCardSubmit(event) {
+  console.log("sekhar");
   event.preventDefault();
-  const cardTitle = document.querySelector(".add-card-modal__title-text").value;
 
-  const cardURL = document.querySelector(".add-card-modal__image-url").value;
-
-  if (cardURL) {
-    const card = getCardElement({ name: cardTitle, link: cardURL });
-    contentList.prepend(card);
-  }
+  const card = getCardElement({ name: cardTitle.value, link: cardURL.value });
+  contentList.prepend(card);
 
   closeModal(addCardModalClose.closest(".modal"));
   // Reset the form so that the previous values are not loaded
   document.querySelector(".add-card-modal__form").reset();
 }
 
-addCardCreateButton.addEventListener("click", createNewCard);
+addCardFormElement.addEventListener("submit", handleCreateCardSubmit);
