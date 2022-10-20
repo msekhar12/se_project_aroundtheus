@@ -108,22 +108,48 @@
         <button class="add-card-modal__close" type="button"></button>
         <div class="add-card-modal__content">
           <h3 class="add-card-modal__heading">New Place</h3>
-          <form class="add-card-modal__form">
-            <input
-              type="text"
-              class="add-card-modal__title-text"
-              placeholder="Title"
-              required
-            />
-            <span class="add-card-modal__name-line"></span>
-            <input
-              type="text"
-              class="add-card-modal__image-url"
-              placeholder="Image Link"
-              required
-            />
-            <span class="add-card-modal__image-url-line"></span>
-            <button type="submit" class="add-card-modal__button">Save</button>
+          <form
+            class="add-card-modal__form"
+            name="add-card-modal__form"
+            novalidate
+          >
+            <label class="add-card-modal__label">
+              <input
+                type="text"
+                class="add-card-modal__title-text"
+                placeholder="Title"
+                required
+                id="add-card-modal-title"
+                minlength="1"
+                maxlength="30"
+              />
+              <span class="add-card-modal__name-line"></span>
+              <span
+                class="add-card-modal__form-error"
+                id="add-card-modal-title-error"
+              ></span>
+            </label>
+            <label class="add-card-modal__label">
+              <input
+                type="url"
+                class="add-card-modal__image-url"
+                placeholder="Image Link"
+                required
+                id="add-card-modal-image"
+              />
+              <span class="add-card-modal__image-url-line"></span>
+              <span
+                class="add-card-modal__form-error"
+                id="add-card-modal-image-error"
+              ></span>
+            </label>
+            <button
+              id="add-card-modal__button"
+              type="submit"
+              class="add-card-modal__button"
+            >
+              Save
+            </button>
           </form>
         </div>
       </div>

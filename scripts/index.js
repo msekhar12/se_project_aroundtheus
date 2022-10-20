@@ -198,7 +198,7 @@ const cardTitle = document.querySelector(".add-card-modal__title-text");
 const cardURL = document.querySelector(".add-card-modal__image-url");
 
 function handleCreateCardSubmit(event) {
-  console.log("sekhar");
+  // console.log("sekhar");
   event.preventDefault();
 
   const card = getCardElement({ name: cardTitle.value, link: cardURL.value });
@@ -211,12 +211,13 @@ function handleCreateCardSubmit(event) {
 
 addCardFormElement.addEventListener("submit", handleCreateCardSubmit);
 
+/*Handle forms validation logic*/
 const showError = (evt, errorMessage) => {
   const errorElement = document.querySelector(`#${evt.target.id}-error`);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(`${evt.currentTarget["name"]}-error_display`);
-  console.log("In show error");
-  console.log(`${evt.currentTarget["name"]}_display`);
+  // console.log("In show error");
+  // console.log(`${evt.currentTarget["name"]}_display`);
 };
 
 const removeError = (evt) => {
