@@ -11,7 +11,7 @@
   justify-content: center;
   align-items: center;
   display: flex;
-  visibility: none;
+  visibility: hidden;
   opacity: 0;
   /*The poniter-events:none must be set when the form is NOT visible.
     If NOT set, then the user can still see the pointer changing to clickable 
