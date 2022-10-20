@@ -264,6 +264,38 @@ const isValid = (evt) => {
 // Add "input" event listener at the form level
 // This will avoid the need to add input event listener
 // at the field level
-Array.from(document.forms).forEach((element) => {
-  element.addEventListener("input", isValid);
+const enableValidation = () => {
+  Array.from(document.forms).forEach((element) => {
+    element.addEventListener("input", isValid);
+  });
+};
+
+enableValidation();
+
+/*Closing pop-up by clicking on the overlay*/
+
+const handleOverLayClick = (evt) => {
+  if (evt.currentTarget.classList.contains("modal_open")) {
+    if (
+      !evt.target.classList.contains("profile-modal__content") &&
+      !evt.target.classList.contains("add-card-modal__content") &&
+      !evt.target.classList.contains("image-modal")
+    ) {
+      closeModal(evt.currentTarget);
+    }
+  }
+};
+
+const handleOverLayEsc = (evt) => {
+  const modalOpened = document.querySelector(".modal_open");
+  if (evt.key === "Escape" && modalOpened) {
+    closeModal(modalOpened);
+  }
+};
+
+Array.from(document.querySelectorAll(".modal")).forEach((element) => {
+  element.addEventListener("click", handleOverLayClick);
 });
+
+// You cannot define the keydown event at the modal level.
+window.addEventListener("keydown", handleOverLayEsc);
