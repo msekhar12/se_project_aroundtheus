@@ -85,7 +85,7 @@
   border-bottom: 1px solid #000000;
   margin: 0 0 48px 0;
 }
-
+/*
 .profile-modal__button {
   width: 358px;
   height: 50px;
@@ -119,6 +119,30 @@
   border: 0;
   opacity: 0.2;
   cursor: default;
+}
+*/
+
+.profile-modal__button {
+  width: 358px;
+  height: 50px;
+  background: #000000;
+  border-radius: 2px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #ffffff;
+  padding: 0;
+  border: 0;
+  opacity: 0.2;
+  cursor: default;
+}
+
+.profile-modal__button_enable {
+  opacity: unset;
+  cursor: pointer;
 }
 
 .profile-modal__close {

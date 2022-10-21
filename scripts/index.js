@@ -60,6 +60,16 @@ function closeModal(modal) {
   if (form) {
     resetErrors(Array.from(form.elements));
     form.reset();
+    const submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) {
+      submitButton.classList.remove(
+        `${form["name"].split("__")[0]}__button_enable`
+      );
+      /*Not sure how to remove the hover effect using just modifier logic.
+      But using two different classes for enabled and disabled we can
+      remove the hover effect while the button is disabled*/
+      submitButton.setAttribute("disabled", true);
+    }
   }
 }
 
@@ -120,16 +130,6 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
 // Card Functions
 
-/*function toggleLike(event) {
-  if (event.target.classList.contains("card__heart-like")) {
-    event.target.classList.remove("card__heart-like");
-    event.target.classList.add("card__heart");
-  } else if (event.target.classList.contains("card__heart")) {
-    event.target.classList.remove("card__heart");
-    event.target.classList.add("card__heart-like");
-  }
-}*/
-
 function handleToggleLike(event) {
   event.target.classList.toggle("card__heart_like");
 }
@@ -162,8 +162,7 @@ imageModalClose.addEventListener("click", handleCloseImageModal);
 // Add cards using template logic
 function getCardElement(data) {
   // Add cards using template logic
-  //const cardTemplate = document.querySelector("#card").content;
-  // cardTemplate is already defined outside the function
+  // cardTemplate is already defined outside the function as a global variable
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
   const cardImage = cardElement.querySelector(".card__image");
@@ -206,7 +205,6 @@ const cardTitle = document.querySelector(".add-card-modal__title-text");
 const cardURL = document.querySelector(".add-card-modal__image-url");
 
 function handleCreateCardSubmit(event) {
-  // console.log("sekhar");
   event.preventDefault();
 
   const card = getCardElement({ name: cardTitle.value, link: cardURL.value });
@@ -219,7 +217,7 @@ function handleCreateCardSubmit(event) {
 
 addCardFormElement.addEventListener("submit", handleCreateCardSubmit);
 
-/*Closing pop-up by clicking on the overlay*/
+/*Closing pop-up by clicking on the overlay or pressing Escape button*/
 
 const handleOverLayClick = (evt) => {
   if (evt.currentTarget.classList.contains("modal_open")) {
@@ -241,4 +239,5 @@ Array.from(document.querySelectorAll(".modal")).forEach((element) => {
 });
 
 // You cannot define the keydown event at the modal level.
+// You must use window level
 window.addEventListener("keydown", handleOverLayEsc);

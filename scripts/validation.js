@@ -33,18 +33,16 @@ const isValid = (evt) => {
   // select button using ID
   // If ID is not used, then we will get empty object
   // once the class is removed when the button is disabled or enabled
-  const button = document.querySelector("#" + formContainer + "__button");
+  const button = document.querySelector("." + formContainer + "__button");
 
   const formElements = Array.from(evt.currentTarget.elements);
 
   if (hasInValidInput(formElements)) {
     button.setAttribute("disabled", true);
-    button.classList.add(formContainer + "__button-disabled");
-    button.classList.remove(formContainer + "__button");
+    button.classList.remove(formContainer + "__button_enable");
   } else {
     button.removeAttribute("disabled");
-    button.classList.add(formContainer + "__button");
-    button.classList.remove(formContainer + "__button-disabled");
+    button.classList.add(formContainer + "__button_enable");
   }
 };
 
