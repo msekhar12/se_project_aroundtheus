@@ -49,14 +49,25 @@ const isValid = (evt) => {
 // Add "input" event listener at the form level
 // This will avoid the need to add input event listener
 // at the field level
-const enableValidation = () => {
-  Array.from(document.forms).forEach((element) => {
+const enableValidation = (formObjects) => {
+  const forms = document.querySelectorAll(formObjects["formSelector"]);
+  Array.from(forms).forEach((element) => {
     element.addEventListener("input", isValid);
   });
 };
 
-enableValidation();
-
+enableValidation({
+  formSelector: ".modal__form",
+});
+/*enableValidation({
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+});
+*/
 const resetErrors = (inputList) => {
   inputList.forEach((element) => {
     const errorElement = document.querySelector(`#${element.id}-error`);
