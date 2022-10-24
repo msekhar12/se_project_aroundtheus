@@ -1,3 +1,5 @@
+import { enableValidation, resetValidation } from "./validation.js";
+
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -22,16 +24,39 @@ const initialCards = [
   },
 ];
 
+// Global dict for validation of form elements
+const configDict = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__input",
+  inputErrorSelector: ".modal__input-error_display",
+  submitButtonSelector: ".modal__submit",
+  inactiveButtonClass: "modal__submit_inactive",
+  errorClass: "modal__input-error_display",
+};
+
+// Add forms input validators
+enableValidation(configDict);
+
+// Global variable to support overlay click
+const allModals = document.querySelectorAll(".modal");
+
 // Global variable to support image modal
-const imageModalContainer = document.querySelector(".image-modal-container");
+const imageModal = document.querySelector("#image-modal");
+const imageModalExpanded = imageModal.querySelector(".modal__image-expanded");
+const imageModalClose = imageModal.querySelector(".modal__close");
+const imageModalLabel = imageModal.querySelector(".modal__image-label");
 
 // Global variables to support Profile editing/saving
 const profilePen = document.querySelector(".profile__pen");
 const profileName = document.querySelector(".profile__name");
 const profileNameTag = document.querySelector(".profile__name-tag");
-const profileModal = document.querySelector(".profile-modal");
-const profileModalClose = document.querySelector(".profile-modal__close");
-const profileFormElement = document.querySelector(".profile-modal__form");
+
+const profileModal = document.querySelector("#profile-edit");
+const profileModalClose = profileModal.querySelector(".modal__close");
+const profileFormElement = profileModal.querySelector(".modal__form");
+// const profileSubmitButton = profileModal.querySelector(".modal__submit");
+const profileModalNameInput = profileModal.querySelector("#profile-modal-name");
+const profileModalJobInput = profileModal.querySelector("#profile-modal-job");
 
 // Global variables for card template
 const cardTemplate = document.querySelector("#card").content;
@@ -40,20 +65,32 @@ const cardTemplate = document.querySelector("#card").content;
 const contentList = document.querySelector(".content__list");
 
 // Global variables to support new card addition logic
-const addCardModal = document.querySelector(".add-card-modal");
-const addCardModalClose = document.querySelector(".add-card-modal__close");
 const addCardButton = document.querySelector(".profile__add-button");
-const addCardFormElement = document.querySelector(".add-card-modal__form");
+const addCardModal = document.querySelector("#add-card");
+const addCardModalClose = addCardModal.querySelector(".modal__close");
+// const addCardSubmitButton = addCardModal.querySelector(".modal__submit");
+const addCardFormElement = addCardModal.querySelector(".modal__form");
+const cardTitle = addCardModal.querySelector("#add-card-title");
+const cardURL = addCardModal.querySelector("#add-card-image-url");
 
 /*---------------------------------*/
 /* All General Helper Functions    */
 /*---------------------------------*/
+function handleEsc(evt) {
+  if (evt.key === "Escape") {
+    const modalOpened = document.querySelector(".modal_open");
+    closeModal(modalOpened);
+  }
+}
+
 function openModal(modal) {
+  window.addEventListener("keydown", handleEsc);
   modal.classList.add("modal_open");
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_open");
+  window.removeEventListener("keydown", handleEsc);
 }
 
 /*---------------------------------*/
@@ -61,27 +98,21 @@ function closeModal(modal) {
 /*---------------------------------*/
 // Helper function to fill the profile form once visible
 function fillProfileForm(profileModal) {
-  const profileModallNameText = profileModal.querySelector(
-    ".profile-modal__name-text"
-  );
-  const profileModalJobText = profileModal.querySelector(
-    ".profile-modal__job-text"
-  );
-
-  profileModallNameText.value = profileName.textContent;
-  profileModalJobText.value = profileNameTag.textContent;
+  profileModalNameInput.value = profileName.textContent;
+  profileModalJobInput.value = profileNameTag.textContent;
 }
 
 function handleEditProfile(event) {
   fillProfileForm(profileModal);
-  openModal(profileModal.closest(".modal"));
+  resetValidation(profileFormElement, configDict);
+  openModal(profileModal);
 }
 
 profilePen.addEventListener("click", handleEditProfile);
 
 // Handle profile modal close button click
 profileModalClose.addEventListener("click", () => {
-  closeModal(profileModalClose.closest(".modal"));
+  closeModal(profileModal);
 });
 
 function handleProfileFormSubmit(event) {
@@ -90,18 +121,10 @@ function handleProfileFormSubmit(event) {
   // onto the page
   event.preventDefault();
 
-  const profileModalNameText = profileModal.querySelector(
-    ".profile-modal__name-text"
-  );
+  profileName.textContent = profileModalNameInput.value;
+  profileNameTag.textContent = profileModalJobInput.value;
 
-  const profileModalJobText = profileModal.querySelector(
-    ".profile-modal__job-text"
-  );
-
-  profileName.textContent = profileModalNameText.value;
-  profileNameTag.textContent = profileModalJobText.value;
-
-  closeModal(profileModalClose.closest(".modal"));
+  closeModal(profileModal);
 }
 
 // Handle profile edit form submit
@@ -110,18 +133,6 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 /*---------------------------------*/
 /* Handle cards addition logic     */
 /*---------------------------------*/
-
-// Card Functions
-
-/*function toggleLike(event) {
-  if (event.target.classList.contains("card__heart-like")) {
-    event.target.classList.remove("card__heart-like");
-    event.target.classList.add("card__heart");
-  } else if (event.target.classList.contains("card__heart")) {
-    event.target.classList.remove("card__heart");
-    event.target.classList.add("card__heart-like");
-  }
-}*/
 
 function handleToggleLike(event) {
   event.target.classList.toggle("card__heart_like");
@@ -134,28 +145,22 @@ function handleDeleteCard(event) {
 function handleOpenImageModal(event) {
   const imageURL = event.target.src;
   const imageText = event.target.alt;
-  const imageModalExpanded = imageModalContainer.querySelector(
-    ".image-modal__expanded"
-  );
   imageModalExpanded.src = imageURL;
   imageModalExpanded.alt = imageText;
-  imageModalContainer.querySelector(".image-modal__label").textContent =
-    imageText;
-
-  openModal(imageModalContainer.closest(".modal"));
+  // imageModal.querySelector(".image-modal__label").textContent = imageText;
+  imageModalLabel.textContent = imageText;
+  openModal(imageModal);
 }
 
 function handleCloseImageModal(event) {
-  closeModal(imageModalContainer.closest(".modal"));
+  closeModal(imageModal);
 }
 
-const imageModalClose = document.querySelector(".image-modal-container__close");
 imageModalClose.addEventListener("click", handleCloseImageModal);
 
 // Add cards using template logic
 function getCardElement(data) {
   // Add cards using template logic
-  //const cardTemplate = document.querySelector("#card").content;
   // cardTemplate is already defined outside the function
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
@@ -184,85 +189,77 @@ initialCards.forEach((data) => contentList.append(getCardElement(data)));
 
 // Handle add card modal close button click
 addCardModalClose.addEventListener("click", () => {
-  closeModal(addCardModalClose.closest(".modal"));
+  closeModal(addCardModal);
 });
 
 // Handle the ADD button (to add cards)
-function handleCardButtonClick(event) {
-  openModal(addCardModal.closest(".modal"));
+function handleCardAddButtonClick() {
+  openModal(addCardModal);
 }
 
-addCardButton.addEventListener("click", handleCardButtonClick);
-
-const cardTitle = document.querySelector(".add-card-modal__title-text");
-const cardURL = document.querySelector(".add-card-modal__image-url");
+addCardButton.addEventListener("click", handleCardAddButtonClick);
 
 function handleCreateCardSubmit(event) {
-  console.log("sekhar");
   event.preventDefault();
 
   const card = getCardElement({ name: cardTitle.value, link: cardURL.value });
   contentList.prepend(card);
 
-  closeModal(addCardModalClose.closest(".modal"));
+  closeModal(addCardModal);
   // Reset the form so that the previous values are not loaded
-  document.querySelector(".add-card-modal__form").reset();
+  addCardFormElement.reset();
 }
 
 addCardFormElement.addEventListener("submit", handleCreateCardSubmit);
 
-const showError = (evt, errorMessage) => {
-  const errorElement = document.querySelector(`#${evt.target.id}-error`);
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(`${evt.currentTarget["name"]}-error_display`);
-  console.log("In show error");
-  console.log(`${evt.currentTarget["name"]}_display`);
-};
+// Handle overlay mouse click
 
-const removeError = (evt) => {
-  const errorElement = document.querySelector(`#${evt.target.id}-error`);
-  errorElement.classList.remove(`${evt.currentTarget["name"]}-error_display`);
-  errorElement.textContent = "";
-};
+/* 
+Why mousedown, instead of click in the below code?
+If click is used:
+    If the user clicks on an input element of the modal,
+    then click event is fired at the input element level,
+    and also at the modal (popup) level.
+    If we define the click handler at the popup level,
+    we will have the following situations:
+    1. If a user clicks on the popup's input element,
+    then due to event bubbling, the click reaches to the
+    popup level handler. Since we are checking the 
+    presence of "modal_open" in the classes of the event,
+    nothing happens. So the code works correctly here.
 
-const hasInValidInput = (inputList) => {
-  //Iterate over the array using "some" method
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
+    2. If a user clicks on the popup (outside the form), then 
+    the condition of the event object containing "modal_open" 
+    in it's class list is satisfied, and the popup is closed.
+    This scenario also works well.
+
+    3. The user mouse down on the form, but releases outside the 
+    form. In this scenario, it is counted as click at the popup level
+    (same as scenario 2). This will close the popup. This functionality
+    is incorrect.
+
+    4. If the user mouse down on outside the form, but releases on
+    an input element. This is also counted as click at the popup
+    level (scenario 2), and closes the popup. This works correctly.
+
+To handle the problem with scenario-3, we have to use the mousedown
+
+If mousedown is used at the modal(popup) level:
+    1. The first scenatrio works. Since the mousedown is 
+    happening at the input element level, the event object 
+    does not contain the modal_open in its class list
+
+    2. The second scenario is covered. 
+
+    3. The third scenario is covered, since the mouse down is 
+    happening at the input element level
+
+    4. The fourth scenario is also covered.
+*/
+allModals.forEach((modal) => {
+  modal.addEventListener("mousedown", (evt) => {
+    if (evt.target.classList.contains("modal_open")) {
+      closeModal(modal);
+    }
   });
-};
-
-const isValid = (evt) => {
-  if (evt.target.validity.valid) {
-    removeError(evt);
-  } else {
-    showError(evt, evt.target.validationMessage);
-  }
-
-  const formName = evt.currentTarget["name"];
-  const formContainer = formName.split("__")[0];
-
-  // select button using ID
-  // If ID is not used, then we will get empty object
-  // once the class is removed when the button is disabled or enabled
-  const button = document.querySelector("#" + formContainer + "__button");
-
-  const formElements = Array.from(evt.currentTarget.elements);
-
-  if (hasInValidInput(formElements)) {
-    button.setAttribute("disabled", true);
-    button.classList.add(formContainer + "__button-disabled");
-    button.classList.remove(formContainer + "__button");
-  } else {
-    button.removeAttribute("disabled");
-    button.classList.add(formContainer + "__button");
-    button.classList.remove(formContainer + "__button-disabled");
-  }
-};
-
-// Add "input" event listener at the form level
-// This will avoid the need to add input event listener
-// at the field level
-Array.from(document.forms).forEach((element) => {
-  element.addEventListener("input", isValid);
 });

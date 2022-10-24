@@ -11,7 +11,7 @@
     />
     <meta name="author" content="Sekhar Mekala" />
     <link rel="stylesheet" href="./pages/index.css" />
-    <!--link rel="icon" type="image/x-icon" href="./favicon.ico" /-->
+    <!-- <link rel="icon" type="image/x-icon" href="./favicon.ico" /> -->
     <title>Around The U.S.</title>
   </head>
   <body class="body">
@@ -49,92 +49,95 @@
         <p class="footer__text">© 2022 Around The U.S.</p>
       </footer>
     </div>
-    <div class="modal">
-      <div class="profile-modal">
-        <button class="profile-modal__close" type="button"></button>
-        <div class="profile-modal__content">
-          <h3 class="profile-modal__heading">Edit Profile</h3>
-          <form
-            name="profile-modal__form"
-            class="profile-modal__form"
-            novalidate
-          >
-            <label class="profile-modal__label">
+    <div class="modal" id="profile-edit">
+      <div class="modal__container">
+        <button class="modal__close" type="button"></button>
+        <div class="modal__content">
+          <h3 class="modal__heading">Edit Profile</h3>
+          <form class="modal__form" novalidate>
+            <label class="modal__label">
               <input
                 type="text"
-                class="profile-modal__name-text"
+                class="modal__input"
                 placeholder="Name"
                 required
                 minlength="2"
                 maxlength="40"
                 id="profile-modal-name"
               />
-              <span class="profile-modal__name-line"></span>
+              <span class="modal__line"></span>
               <span
-                class="profile-modal__form-error"
+                class="modal__input-error"
                 id="profile-modal-name-error"
               ></span>
             </label>
-            <label class="profile-modal__label">
+            <label class="modal__label">
               <input
                 type="text"
-                class="profile-modal__job-text"
+                class="modal__input"
                 placeholder="Description"
                 required
                 minlength="2"
                 maxlength="200"
                 id="profile-modal-job"
               />
-              <span class="profile-modal__description-line"></span>
+              <span class="modal__line"></span>
               <span
-                class="profile-modal__form-error"
+                class="modal__input-error"
                 id="profile-modal-job-error"
               ></span>
             </label>
-            <button
-              id="profile-modal__button"
-              type="submit"
-              class="profile-modal__button"
-            >
-              Save
-            </button>
+            <button type="submit" class="modal__submit">Save</button>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="modal">
-      <div class="add-card-modal">
-        <button class="add-card-modal__close" type="button"></button>
-        <div class="add-card-modal__content">
-          <h3 class="add-card-modal__heading">New Place</h3>
-          <form class="add-card-modal__form">
-            <input
-              type="text"
-              class="add-card-modal__title-text"
-              placeholder="Title"
-              required
-            />
-            <span class="add-card-modal__name-line"></span>
-            <input
-              type="text"
-              class="add-card-modal__image-url"
-              placeholder="Image Link"
-              required
-            />
-            <span class="add-card-modal__image-url-line"></span>
-            <button type="submit" class="add-card-modal__button">Save</button>
+    <div class="modal" id="add-card">
+      <div class="modal__container">
+        <button class="modal__close" type="button"></button>
+        <div class="modal__content">
+          <h3 class="modal__heading">New Place</h3>
+          <form class="modal__form" novalidate>
+            <label class="modal__label">
+              <input
+                type="text"
+                class="modal__input"
+                placeholder="Title"
+                required
+                id="add-card-title"
+                minlength="1"
+                maxlength="30"
+              />
+              <span class="modal__line"></span>
+              <span class="modal__input-error" id="add-card-title-error"></span>
+            </label>
+            <label class="modal__label">
+              <input
+                type="url"
+                class="modal__input"
+                placeholder="Image Link"
+                required
+                id="add-card-image-url"
+              />
+              <span class="modal__line"></span>
+              <span
+                class="modal__input-error"
+                id="add-card-image-url-error"
+              ></span>
+            </label>
+            <button type="submit" class="modal__submit">Save</button>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="modal">
-      <div class="image-modal-container">
-        <button type="button" class="image-modal-container__close"></button>
-        <div class="image-modal">
-          <img class="image-modal__expanded" />
-          <p class="image-modal__label"></p>
+    <div class="modal" id="image-modal">
+      <div class="modal__container">
+        <button type="button" class="modal__close"></button>
+        <div class="modal__image">
+          <img class="modal__image-expanded" />
+          <p class="modal__image-label"></p>
         </div>
       </div>
     </div>
@@ -151,6 +154,7 @@
         </div>
       </li>
     </template>
-    <script src="./scripts/index.js"></script>
+    <script src="./scripts/validation.js" type="module"></script>
+    <script src="./scripts/index.js" type="module"></script>
   </body>
 </html>

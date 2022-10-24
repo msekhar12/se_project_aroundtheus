@@ -23,9 +23,149 @@
   transition: visibility 0s 0.5s, opacity 0.5s linear;
 }
 
+/*modal__container is needed to combine the modal close button and 
+modal__content*/
+.modal__container {
+  /* min-width: 480px;
+  min-height: 380px;*/
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__content {
+  display: flex;
+  flex-direction: column;
+  max-width: 430px;
+  max-height: 330px;
+  background: #ffffff;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  opacity: 1;
+  margin: auto;
+}
+
+.modal__heading {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 34px 64px 54px 36px;
+  padding: 0;
+  color: #000000;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 36px 54px 36px;
+}
+
+/*You have to use the modal__label 
+or
+some div to group the form input, and input error.
+If NOT used, then the error will be displayed at the top of the page.
+*/
+.modal__label {
+  display: flex;
+  flex-direction: column;
+  /*the position must be relative to make the error message's 
+  absolute position is relative to the label. 
+  See profile-modal__error*/
+  position: relative;
+}
+
+.modal__input {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  border: 0;
+  /*outline: none will remove border display when trying to enter text*/
+  outline: none;
+  margin: 0 0 13px 0;
+  width: 358px;
+  padding: 0;
+}
+
+.modal__line {
+  flex-grow: 1;
+  opacity: 0.2;
+  border-bottom: 1px solid #000000;
+  margin: 0 0 30px 0;
+}
+
+.modal__input-error {
+  position: absolute;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  color: #ff0000;
+  top: 35px;
+  /*Hide the error element initially*/
+  visibility: hidden;
+}
+
+.modal__input-error_display {
+  visibility: visible;
+}
+
+.modal__submit {
+  width: 358px;
+  height: 50px;
+  background: #000000;
+  border-radius: 2px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #ffffff;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
+.modal__submit_inactive {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.modal__submit:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: background-color 0.1s linear 0.1s;
+}
+
+.modal__close {
+  background: url("../images/close_icon.svg");
+  width: 50px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-sizing: border-box;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+  /*left: 450px;
+  top: 10px;*/
+  top: 5px;
+  padding: 0;
+  left: 100%;
+}
+
+.modal__close:hover {
+  opacity: 0.6;
+}
+
 /*
   .modal_open should not have a delay for visibility transition 
-  (when we open a popup visibility will become visible immediately
+  (when we open a popup visibility will become visible immediately)
   */
 .modal_open {
   visibility: visible;
@@ -36,4 +176,28 @@
   /*The poniter-events:all must be set when the form is visible.
     If NOT set, then the user cannot interact with the form*/
   pointer-events: all;
+}
+
+.modal__image {
+  display: flex;
+  flex-direction: column;
+  max-width: 75vw;
+  max-height: 75vh;
+  position: relative;
+}
+
+.modal__image-expanded {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.modal__image-label {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ffffff;
+  margin: 10px 0 0 0;
+  padding: 0;
 }
