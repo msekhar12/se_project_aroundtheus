@@ -1,4 +1,8 @@
-import { enableValidation, resetValidation } from "./validation.js";
+import {
+  enableValidation,
+  resetValidation,
+  disableSubmit,
+} from "./validation.js";
 
 const initialCards = [
   {
@@ -39,6 +43,9 @@ enableValidation(configDict);
 
 // Global variable to support overlay click
 const allModals = document.querySelectorAll(".modal");
+
+// Find all modal close buttons
+const closeButtons = document.querySelectorAll(".modal__close");
 
 // Global variable to support image modal
 const imageModal = document.querySelector("#image-modal");
@@ -93,6 +100,14 @@ function closeModal(modal) {
   window.removeEventListener("keydown", handleEsc);
 }
 
+// find all close buttons
+closeButtons.forEach((button) => {
+  // find the closest popup
+  const modal = button.closest(".modal");
+  // set the listener
+  button.addEventListener("click", () => closeModal(modal));
+});
+
 /*---------------------------------*/
 /* Handle profile pen button click */
 /*---------------------------------*/
@@ -105,15 +120,11 @@ function fillProfileForm(profileModal) {
 function handleEditProfile(event) {
   fillProfileForm(profileModal);
   resetValidation(profileFormElement, configDict);
+  disableSubmit(profileFormElement, configDict);
   openModal(profileModal);
 }
 
 profilePen.addEventListener("click", handleEditProfile);
-
-// Handle profile modal close button click
-profileModalClose.addEventListener("click", () => {
-  closeModal(profileModal);
-});
 
 function handleProfileFormSubmit(event) {
   // Without the following line (PreventDefault()), the page will be reloaded on submission.
@@ -152,12 +163,6 @@ function handleOpenImageModal(event) {
   openModal(imageModal);
 }
 
-function handleCloseImageModal(event) {
-  closeModal(imageModal);
-}
-
-imageModalClose.addEventListener("click", handleCloseImageModal);
-
 // Add cards using template logic
 function getCardElement(data) {
   // Add cards using template logic
@@ -187,11 +192,6 @@ initialCards.forEach((data) => contentList.append(getCardElement(data)));
 /* New cards addition logic        */
 /*---------------------------------*/
 
-// Handle add card modal close button click
-addCardModalClose.addEventListener("click", () => {
-  closeModal(addCardModal);
-});
-
 // Handle the ADD button (to add cards)
 function handleCardAddButtonClick() {
   openModal(addCardModal);
@@ -208,6 +208,10 @@ function handleCreateCardSubmit(event) {
   closeModal(addCardModal);
   // Reset the form so that the previous values are not loaded
   addCardFormElement.reset();
+  // The reset() will handle the submit button disable.
+  // Since we included a customized reset handler
+  // See setEventListeners() in validation.js
+  // disableSubmit(event.target, configDict);
 }
 
 addCardFormElement.addEventListener("submit", handleCreateCardSubmit);
@@ -261,5 +265,15 @@ allModals.forEach((modal) => {
     if (evt.target.classList.contains("modal_open")) {
       closeModal(modal);
     }
+    // To the reviewer:
+    // You suggested me to add close button for each modal (or popup)
+    // when the mouse is down on the cross button (or close button).
+    // But if someone mouse downs on the close but moves away from the button
+    // and release it, the popup would still be closed.
+    // Is this the expected behavior? Please suggest!!
+    /*
+    if (evt.target.classList.contains("modal__close")) {
+      closeModal(modal);
+    }*/
   });
 });

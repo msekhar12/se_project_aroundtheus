@@ -69,6 +69,17 @@ const setEventListeners = (formElement, configDict) => {
       toggleButtonState(inputList, buttonElement, configDict);
     });
   });
+
+  // As suggested by reviewer, whenever a form is reset,
+  // the button will be disabled, using the following reset event handler
+  // Alternatively we can disable the button when the modal is opened for display.
+  // See the function (see the function: handleCreateCardSubmit(event) in index.js)
+  formElement.addEventListener("reset", () => {
+    // `setTimeout` is needed to wait till the form is fully reset and then to call `toggleButtonState`
+    setTimeout(() => {
+      toggleButtonState(inputList, buttonElement, configDict);
+    }, 0); // it’s enough to put 0 ms here
+  });
 };
 
 const enableValidation = (configDict) => {
@@ -92,12 +103,15 @@ const resetValidation = (formElement, configDict) => {
   modalInputErrorElements.forEach((element) => {
     element.classList.remove(configDict["errorClass"]);
   });
+};
 
+const disableSubmit = (formElement, configDict) => {
   const submitButton = formElement.querySelector(
     configDict["submitButtonSelector"]
   );
+  submitButton.setAttribute("disabled", true);
   submitButton.classList.add(configDict["inactiveButtonClass"]);
 };
 
 //enableValidation(configDict);
-export { enableValidation, resetValidation };
+export { enableValidation, resetValidation, disableSubmit };
