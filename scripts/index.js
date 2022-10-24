@@ -263,3 +263,7 @@ allModals.forEach((modal) => {
     }
   });
 });
+
+// You cannot define the keydown event at the modal level.
+// You must use window level
+window.addEventListener("keydown", handleOverLayEsc);
