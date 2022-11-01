@@ -31,46 +31,46 @@ class Card {
     event.target.closest(".card").remove();
   }
 
-  _handleOpenImageModal(event) {
-    const imageURL = event.target.src;
-    const imageText = event.target.alt;
-    imageModalExpanded.src = imageURL;
-    imageModalExpanded.alt = imageText;
-    imageModalLabel.textContent = imageText;
+  _handleOpenImageModal() {
+    imageModalExpanded.src = this._src;
+    imageModalExpanded.alt = this._alt;
+    imageModalLabel.textContent = this._alt;
     openModal(imageModal);
   }
 
   _setEventListeners() {
     // The this._element is created inside getcardElement() method
-    const cardImage = this._element.querySelector(".card__image");
-    const cardLikeButton = this._element.querySelector(".card__heart");
-    const deleteCardButton = this._element.querySelector(".card__delete");
 
     // You must use arrow functions. You CANNOT use this._handleOpenImageModal
     // directly in the addEventListener(). We will learn about the reason later!!
-    cardImage.addEventListener("click", (event) => {
-      this._handleOpenImageModal(event);
+    this._cardImage.addEventListener("click", () => {
+      this._handleOpenImageModal();
     });
 
-    cardLikeButton.addEventListener("click", (event) => {
+    this._cardLikeButton.addEventListener("click", (event) => {
       this._handleToggleLike(event);
     });
 
-    deleteCardButton.addEventListener("click", (event) => {
+    this._deleteCardButton.addEventListener("click", (event) => {
       this._handleDeleteCard(event);
     });
   }
 
   _fillImageCard() {
-    const cardImage = this._element.querySelector(".card__image");
-    const cardLabel = this._element.querySelector(".card__label-text");
-    cardImage.src = this._src;
-    cardImage.alt = this._alt;
-    cardLabel.textContent = this._textContent;
+    this._cardImage.src = this._src;
+    this._cardImage.alt = this._alt;
+    this._cardLabel.textContent = this._textContent;
   }
 
   getCardElement() {
     this._element = this._getTemplate();
+    // Set class variables, which will be referenced in other functions
+    this._cardImage = this._element.querySelector(".card__image");
+    this._cardLikeButton = this._element.querySelector(".card__heart");
+    this._deleteCardButton = this._element.querySelector(".card__delete");
+    this._cardLabel = this._element.querySelector(".card__label-text");
+
+    // Set event listeners on the form fields
     this._setEventListeners();
     this._fillImageCard();
     return this._element;

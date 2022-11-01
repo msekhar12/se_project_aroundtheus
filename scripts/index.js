@@ -1,4 +1,4 @@
-import { resetValidation, disableSubmit } from "./validation.js";
+// import { resetValidation, disableSubmit } from "./validation.js";
 
 import { Card } from "./Card.js";
 
@@ -55,6 +55,7 @@ const profileNameTag = document.querySelector(".profile__name-tag");
 
 const profileModal = document.querySelector("#profile-edit");
 const profileFormElement = profileModal.querySelector(".modal__form");
+const profileFormName = profileFormElement["name"];
 const profileModalNameInput = profileModal.querySelector("#profile-modal-name");
 const profileModalJobInput = profileModal.querySelector("#profile-modal-job");
 
@@ -72,9 +73,13 @@ const cardTitle = addCardModal.querySelector("#add-card-title");
 const cardURL = addCardModal.querySelector("#add-card-image-url");
 
 // Add forms input validators
-// enableValidation(configDict);
+// formValidators objects will contain the form name as the key
+// and FormValidator object as its value.
+const formValidators = {};
+
 allForms.forEach((form) => {
   const formValidator = new FormValidator(configDict, form);
+  formValidators[form["name"]] = formValidator;
   formValidator.enableValidation();
 });
 
@@ -87,10 +92,9 @@ function fillProfileForm() {
   profileModalJobInput.value = profileNameTag.textContent;
 }
 
-function handleEditProfile(event) {
+function handleEditProfile() {
   fillProfileForm();
-  resetValidation(profileFormElement, configDict);
-  disableSubmit(profileFormElement, configDict);
+  formValidators[profileFormName].resetValidation();
   openModal(profileModal);
 }
 
@@ -117,10 +121,14 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
 // Fill with default cards initially
 
-initialCards.forEach((item) => {
+const createCard = (item) => {
   const card = new Card(item, cardTemplateID);
-
   const cardElement = card.getCardElement();
+  return cardElement;
+};
+
+initialCards.forEach((item) => {
+  const cardElement = createCard(item);
   contentList.append(cardElement);
 });
 
@@ -137,14 +145,10 @@ addCardButton.addEventListener("click", handleCardAddButtonClick);
 
 function handleCreateCardSubmit(event) {
   event.preventDefault();
-
-  const card = new Card(
-    { name: cardTitle.value, link: cardURL.value },
-    cardTemplateID
-  );
-
-  const cardElement = card.getCardElement();
-
+  const cardElement = createCard({
+    name: cardTitle.value,
+    link: cardURL.value,
+  });
   contentList.prepend(cardElement);
 
   closeModal(addCardModal);

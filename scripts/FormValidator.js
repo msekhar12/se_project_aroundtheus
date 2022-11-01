@@ -25,20 +25,24 @@ class FormValidator {
     errorElement.textContent = "";
   };
 
-  _hasInValidInput = (inputList) => {
+  _hasInValidInput = () => {
     //inputList is a list of input fields belonging to a form
-    return inputList.some((inputElement) => {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
 
-  _toggleButtonState = (inputList, buttonElement) => {
-    if (this._hasInValidInput(inputList)) {
-      buttonElement.setAttribute("disabled", true);
-      buttonElement.classList.add(this._configDict["inactiveButtonClass"]);
+  _toggleButtonState = () => {
+    if (this._hasInValidInput()) {
+      this._buttonElement.setAttribute("disabled", true);
+      this._buttonElement.classList.add(
+        this._configDict["inactiveButtonClass"]
+      );
     } else {
-      buttonElement.classList.remove(this._configDict["inactiveButtonClass"]);
-      buttonElement.removeAttribute("disabled", true);
+      this._buttonElement.classList.remove(
+        this._configDict["inactiveButtonClass"]
+      );
+      this._buttonElement.removeAttribute("disabled", true);
     }
   };
 
@@ -57,23 +61,23 @@ class FormValidator {
       evt.preventDefault();
     });
 
-    const inputList = Array.from(
+    this._inputList = Array.from(
       this._formElement.querySelectorAll(this._configDict["inputSelector"])
     );
 
-    const buttonElement = this._formElement.querySelector(
+    this._buttonElement = this._formElement.querySelector(
       this._configDict["submitButtonSelector"]
     );
 
     // This statement will help to set the button state appropriately, when the
     // page loads initially
-    this._toggleButtonState(inputList, buttonElement);
+    this._toggleButtonState();
 
     // You must use arrow function. If not used, we will get this._checkInputValidity() not found error
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState();
       });
     });
 
@@ -83,13 +87,35 @@ class FormValidator {
     this._formElement.addEventListener("reset", () => {
       // `setTimeout` is needed to wait till the form is fully reset and then to call `this._toggleButtonState()`
       setTimeout(() => {
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState();
       }, 0); // it’s enough to put 0 ms here
     });
   }
 
+  _disableSubmit = () => {
+    this._submitButton.setAttribute("disabled", true);
+    this._submitButton.classList.add(this._configDict["inactiveButtonClass"]);
+  };
+
   enableValidation = () => {
     this._setEventListeners();
+
+    // The this._modalInputErrorElements will be used in resetValidation()
+    this._modalInputErrorElements = this._formElement.querySelectorAll(
+      this._configDict["inputErrorSelector"]
+    );
+
+    // The this._submitButton will be used in _disableSubmit()
+    this._submitButton = this._formElement.querySelector(
+      this._configDict["submitButtonSelector"]
+    );
+  };
+
+  resetValidation = () => {
+    this._modalInputErrorElements.forEach((element) => {
+      element.classList.remove(this._configDict["errorClass"]);
+    });
+    this._disableSubmit();
   };
 }
 
