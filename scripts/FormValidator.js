@@ -34,10 +34,11 @@ class FormValidator {
 
   _toggleButtonState = () => {
     if (this._hasInValidInput()) {
-      this._buttonElement.setAttribute("disabled", true);
-      this._buttonElement.classList.add(
-        this._configDict["inactiveButtonClass"]
-      );
+      // this._buttonElement.setAttribute("disabled", true);
+      // this._buttonElement.classList.add(
+      // this._configDict["inactiveButtonClass"]
+      // );
+      this._disableSubmit();
     } else {
       this._buttonElement.classList.remove(
         this._configDict["inactiveButtonClass"]
@@ -94,28 +95,17 @@ class FormValidator {
   }
 
   _disableSubmit = () => {
-    this._submitButton.setAttribute("disabled", true);
-    this._submitButton.classList.add(this._configDict["inactiveButtonClass"]);
+    this._buttonElement.setAttribute("disabled", true);
+    this._buttonElement.classList.add(this._configDict["inactiveButtonClass"]);
   };
 
   enableValidation = () => {
-    // The this._modalInputErrorElements will be used in resetValidation()
-    this._modalInputErrorElements = this._formElement.querySelectorAll(
-      this._configDict["inputErrorSelector"]
-    );
-
-    // The this._submitButton will be used in _disableSubmit()
-    this._submitButton = this._formElement.querySelector(
-      this._configDict["submitButtonSelector"]
-    );
-
-    // Now set event listeners
     this._setEventListeners();
   };
 
   resetValidation = () => {
-    this._modalInputErrorElements.forEach((element) => {
-      element.classList.remove(this._configDict["errorClass"]);
+    this._inputList.forEach((element) => {
+      this._hideInputError(element);
     });
     this._disableSubmit();
   };
