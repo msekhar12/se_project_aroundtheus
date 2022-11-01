@@ -86,9 +86,10 @@ class FormValidator {
     // See the function (see the function: handleCreateCardSubmit(event) in index.js)
     this._formElement.addEventListener("reset", () => {
       // `setTimeout` is needed to wait till the form is fully reset and then to call `this._toggleButtonState()`
-      setTimeout(() => {
-        this._toggleButtonState();
-      }, 0); // it’s enough to put 0 ms here
+      //setTimeout(() => {
+      //  this._toggleButtonState();
+      //}, 0); // it’s enough to put 0 ms here
+      this._disableSubmit();
     });
   }
 
@@ -98,8 +99,6 @@ class FormValidator {
   };
 
   enableValidation = () => {
-    this._setEventListeners();
-
     // The this._modalInputErrorElements will be used in resetValidation()
     this._modalInputErrorElements = this._formElement.querySelectorAll(
       this._configDict["inputErrorSelector"]
@@ -109,6 +108,9 @@ class FormValidator {
     this._submitButton = this._formElement.querySelector(
       this._configDict["submitButtonSelector"]
     );
+
+    // Now set event listeners
+    this._setEventListeners();
   };
 
   resetValidation = () => {

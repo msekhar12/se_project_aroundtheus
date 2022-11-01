@@ -34,7 +34,7 @@ const initialCards = [
 const configDict = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
-  inputErrorSelector: ".modal__input-error_display",
+  inputErrorSelector: ".modal__input-error",
   submitButtonSelector: ".modal__submit",
   inactiveButtonClass: "modal__submit_inactive",
   errorClass: "modal__input-error_display",
@@ -69,6 +69,7 @@ const contentList = document.querySelector(".content__list");
 const addCardButton = document.querySelector(".profile__add-button");
 const addCardModal = document.querySelector("#add-card");
 const addCardFormElement = addCardModal.querySelector(".modal__form");
+const addCardFormName = addCardFormElement["name"];
 const cardTitle = addCardModal.querySelector("#add-card-title");
 const cardURL = addCardModal.querySelector("#add-card-image-url");
 
@@ -93,8 +94,8 @@ function fillProfileForm() {
 }
 
 function handleEditProfile() {
-  fillProfileForm();
   formValidators[profileFormName].resetValidation();
+  fillProfileForm();
   openModal(profileModal);
 }
 
@@ -153,11 +154,12 @@ function handleCreateCardSubmit(event) {
 
   closeModal(addCardModal);
   // Reset the form so that the previous values are not loaded
+
+  // formValidators[addCardFormName].resetValidation();
   addCardFormElement.reset();
   // The reset() will handle the submit button disable.
   // Since we included a customized reset handler
-  // See setEventListeners() in validation.js
-  // disableSubmit(event.target, configDict);
+  // See _setEventListeners() in FormValidator.js
 }
 
 addCardFormElement.addEventListener("submit", handleCreateCardSubmit);

@@ -27,7 +27,6 @@ class Card {
   }
 
   _handleDeleteCard(event) {
-    // console.log(event);
     event.target.closest(".card").remove();
   }
 
