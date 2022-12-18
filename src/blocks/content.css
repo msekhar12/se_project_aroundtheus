@@ -1,0 +1,55 @@
+/*
+Advanced layout technique, instead of media queries
+https://web.dev/patterns/layout/repeat-auto-minmax/
+
+I will work on using this advanced technique later.
+When I start working start by uncommenting the code above.
+As per reviewer, this looks all correct, except the 
+list-style-type: none is missing. 
+*/
+
+/*
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 282px);
+  max-width: 880px;
+  width: 100%;
+  column-gap: 17px;
+  row-gap: 20px;
+  padding: 0;
+  justify-content: center;
+  margin: auto;
+}
+*/
+
+.content {
+  width: 100%;
+}
+
+.content__list {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 17px;
+  row-gap: 20px;
+  justify-content: flex-start;
+  max-width: 880px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .content__list {
+    max-width: 581px;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .content__list {
+    max-width: 282px;
+    /*Increase the size of the content so that it puts
+    the picture blocks in one column*/
+    padding: 0 20px;
+  }
+}
