@@ -1,7 +1,5 @@
 class UserInfo {
   constructor({ nameSelector, jobSelector }) {
-    this._nameSelector = nameSelector;
-    this._jobSelector = jobSelector;
     this._profileName = document.querySelector(nameSelector);
     this._profileJob = document.querySelector(jobSelector);
   }

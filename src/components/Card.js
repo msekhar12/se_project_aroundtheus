@@ -1,19 +1,10 @@
 class Card {
-  constructor({
-    data,
-    selector,
-    clickEventHandler,
-    deleteEventHandler,
-    likeEventHandler,
-  }) {
-    console.log(data);
+  constructor({ data, selector, clickEventHandler }) {
     this._src = data.link;
     this._alt = data.name;
     this._textContent = data.name;
     this._selector = selector;
     this._clickEventHandler = clickEventHandler;
-    this._deleteEventHandler = deleteEventHandler;
-    this._likeEventHandler = likeEventHandler;
   }
 
   _getTemplate() {
@@ -30,17 +21,25 @@ class Card {
     this._cardLabel.textContent = this._textContent;
   }
 
+  _handleToggleLike(event) {
+    event.target.classList.toggle("card__heart_like");
+  }
+
+  _handleDeleteCard(event) {
+    event.target.closest(".card").remove();
+  }
+
   setEventListeners() {
     this._cardImage.addEventListener("click", () => {
       this._clickEventHandler();
     });
 
     this._deleteCardButton.addEventListener("click", (evt) => {
-      this._deleteEventHandler(evt);
+      this._handleDeleteCard(evt);
     });
 
     this._cardLikeButton.addEventListener("click", (evt) => {
-      this._likeEventHandler(evt);
+      this._handleToggleLike(evt);
     });
   }
   getCardElement() {

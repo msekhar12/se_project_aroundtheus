@@ -5,18 +5,17 @@ class PopupWithForm extends Popup {
     super(modalSelector);
     this._form = this._modal.querySelector(".modal__form");
     this._handleFormSubmit = handleFormSubmit;
+    this._inputList = this._form.querySelectorAll(".modal__input");
     this.setEventListeners();
   }
 
   _getInputValues() {
-    this._inputList = this._form.querySelectorAll(".modal__input");
-
-    this._formValues = {};
+    const formValues = {};
 
     this._inputList.forEach((input) => {
-      this._formValues[input.name] = input.value;
+      formValues[input.name] = input.value;
     });
-    return this._formValues;
+    return formValues;
   }
 
   setEventListeners() {
@@ -27,14 +26,25 @@ class PopupWithForm extends Popup {
     });
   }
 
-  reset() {
+  //reset() {
+  //  this._form.reset();
+  //}
+
+  /**To the Reviewer:
+   * I made changes as per your suggestion. Removed reset() function,
+   * and added line to reset the form in close() itself.
+   * However, how can I handle the functionality of not to
+   * reset the form (to save the earlier typed data?).
+   * For example, in the new images add functionality, after typing the data,
+   * if the user closes the form, and then again clicks the add image button,
+   * the opened form should restore the earlier typed data.
+   * With the suggested changes I am not able to load the previously typed
+   * values for the new image upload form.
+   */
+  close() {
+    super.close();
     this._form.reset();
   }
-
-  // close() {
-  //   super.close();
-  //  this._modal.reset();
-  // }
 }
 
 export { PopupWithForm };

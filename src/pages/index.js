@@ -112,7 +112,7 @@ const profileForm = new PopupWithForm({
       inputs["profile-modal-job"]
     );
     profileForm.close();
-    profileForm.reset();
+    //profileForm.reset();
   },
 });
 
@@ -138,33 +138,28 @@ profilePen.addEventListener("click", handleEditProfile);
 /* Handle cards addition logic     */
 /*---------------------------------*/
 
+const modalCard = new PopupWithImage("#image-modal");
+
 // Fill with default cards initially
 // ({ items, renderer }, containerSelector)
 //    handleDeleteCard, handleLikeCard, handleExpandCard
+function createCard(item) {
+  return new Card({
+    data: item,
+    selector: cardTemplateID,
+    clickEventHandler: () => {
+      modalCard.open({
+        src: item.link,
+        alt: item.name,
+      });
+    },
+  });
+}
 const cardsList = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const modalCard = new PopupWithImage(
-        {
-          src: item.link,
-          alt: item.name,
-        },
-        "#image-modal"
-      );
-      const card = new Card({
-        data: item,
-        selector: cardTemplateID,
-        clickEventHandler: () => {
-          modalCard.open();
-        },
-        deleteEventHandler: (evt) => {
-          evt.target.closest(".card").remove();
-        },
-        likeEventHandler: (evt) => {
-          evt.target.classList.toggle("card__heart_like");
-        },
-      });
+      const card = createCard(item);
       const cardElement = card.getCardElement();
       cardsList.addItem(cardElement);
     },
@@ -183,32 +178,15 @@ cardsList.renderItems();
 const addCardForm = new PopupWithForm({
   modalSelector: "#add-card",
   handleFormSubmit: (inputs) => {
-    const title = inputs["add-card-title"];
-    const url = inputs["add-card-image-url"];
-    const modalCard = new PopupWithImage(
-      {
-        src: title,
-        alt: url,
-      },
-      "#image-modal"
-    );
-    const card = new Card({
-      data: { name: title, link: url },
-      selector: cardTemplateID,
-      clickEventHandler: () => {
-        modalCard.open();
-      },
-      deleteEventHandler: (evt) => {
-        evt.target.closest(".card").remove();
-      },
-      likeEventHandler: (evt) => {
-        evt.target.classList.toggle("card__heart_like");
-      },
-    });
+    const item = {
+      name: inputs["add-card-title"],
+      link: inputs["add-card-image-url"],
+    };
+    const card = createCard(item);
     const cardElement = card.getCardElement();
     cardsList.prependItem(cardElement);
     addCardForm.close();
-    addCardForm.reset();
+    //addCardForm.reset();
   },
 });
 

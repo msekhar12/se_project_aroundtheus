@@ -137,7 +137,20 @@ If NOT used, then the error will be displayed at the top of the page.
   cursor: default;
 }
 
+/*selects disabled hovered button*/
+.modal__submit_inactive:hover {
+  background-color: #000000;
+}
+
+/*
 .modal__submit:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: background-color 0.1s linear 0.1s;
+}
+*/
+
+/*selects not disabled hovered button*/
+.modal__submit:hover:not(:disabled) {
   background-color: rgba(0, 0, 0, 0.8);
   transition: background-color 0.1s linear 0.1s;
 }
