@@ -19,6 +19,7 @@ class Card {
     this._cardImage.src = this._src;
     this._cardImage.alt = this._alt;
     this._cardLabel.textContent = this._textContent;
+    this._cardLikes.textContent = 5;
   }
 
   _handleToggleLike(event) {
@@ -48,6 +49,7 @@ class Card {
     this._cardLikeButton = this._element.querySelector(".card__heart");
     this._deleteCardButton = this._element.querySelector(".card__delete");
     this._cardLabel = this._element.querySelector(".card__label-text");
+    this._cardLikes = this._element.querySelector(".card__likes");
     this._fillImageCard();
     this.setEventListeners();
     return this._element;

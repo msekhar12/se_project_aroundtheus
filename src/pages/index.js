@@ -10,39 +10,46 @@ import { FormValidator } from "../components/FormValidator.js";
 
 import { PopupWithImage } from "../components/PopupWithImage.js";
 
-const yosmiteImage = "https://code.s3.yandex.net/web-code/yosemite.jpg";
-const lakeLousieImage = "https://code.s3.yandex.net/web-code/lake-louise.jpg";
-const baldMountainsImage =
-  "https://code.s3.yandex.net/web-code/bald-mountains.jpg";
-const latemarImage = "https://code.s3.yandex.net/web-code/latemar.jpg";
-const vanoiseNationalImage = "https://code.s3.yandex.net/web-code/vanoise.jpg";
-const lagoDiBraiesImage = "https://code.s3.yandex.net/web-code/lago.jpg";
+import { Api } from "../components/Api.js";
 
-const initialCards = [
-  {
-    name: "Yosemite Valley",
-    link: yosmiteImage,
-  },
+const apiOptions = {
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  token: "51b8259d-f8d1-4b7c-b443-194620edca24",
+};
 
-  ,
-  {
-    name: "Lake Louise",
-    link: lakeLousieImage,
-  },
-  {
-    name: "Bald Mountains",
-    link: baldMountainsImage,
-  },
-  { name: "Latemar", link: latemarImage },
-  {
-    name: "Vanoise National Park",
-    link: vanoiseNationalImage,
-  },
-  {
-    name: "Lago di Braies",
-    link: lagoDiBraiesImage,
-  },
-];
+// const yosmiteImage = "https://code.s3.yandex.net/web-code/yosemite.jpg";
+// const lakeLousieImage = "https://code.s3.yandex.net/web-code/lake-louise.jpg";
+// const baldMountainsImage =
+//   "https://code.s3.yandex.net/web-code/bald-mountains.jpg";
+// const latemarImage = "https://code.s3.yandex.net/web-code/latemar.jpg";
+// const vanoiseNationalImage = "https://code.s3.yandex.net/web-code/vanoise.jpg";
+// const lagoDiBraiesImage = "https://code.s3.yandex.net/web-code/lago.jpg";
+
+// const initialCards = [
+//   {
+//     name: "Yosemite Valley",
+//     link: yosmiteImage,
+//   },
+
+//   ,
+//   {
+//     name: "Lake Louise",
+//     link: lakeLousieImage,
+//   },
+//   {
+//     name: "Bald Mountains",
+//     link: baldMountainsImage,
+//   },
+//   { name: "Latemar", link: latemarImage },
+//   {
+//     name: "Vanoise National Park",
+//     link: vanoiseNationalImage,
+//   },
+//   {
+//     name: "Lago di Braies",
+//     link: lagoDiBraiesImage,
+//   },
+// ];
 
 // Global dict for validation of form elements
 const configDict = {
@@ -155,19 +162,20 @@ function createCard(item) {
     },
   });
 }
-const cardsList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const card = createCard(item);
-      const cardElement = card.getCardElement();
-      cardsList.addItem(cardElement);
-    },
-  },
-  ".content__list"
-);
 
-cardsList.renderItems();
+// const cardsList = new Section(
+//   {
+//     items: initialCards,
+//     renderer: (item) => {
+//       const card = createCard(item);
+//       const cardElement = card.getCardElement();
+//       cardsList.addItem(cardElement);
+//     },
+//   },
+//   ".content__list"
+// );
+
+// cardsList.renderItems();
 
 /*---------------------------------*/
 /* New cards addition logic        */
@@ -195,3 +203,50 @@ function handleCardAddButtonClick() {
 }
 
 addCardButton.addEventListener("click", handleCardAddButtonClick);
+
+function loadInitialPage() {
+  const initialCards = [];
+  const profileInfo = {};
+  const cardData = new Api(apiOptions)
+    .getInitialCards()
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  const userData = new Api(apiOptions)
+    .getUserInfo()
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  new Api(apiOptions).performPromiseAll([cardData, userData]).then((result) => {
+    result[0].forEach((element) =>
+      initialCards.push({ name: element.name, link: element.link })
+    );
+    const cardsList = new Section(
+      {
+        items: initialCards,
+        renderer: (item) => {
+          const card = createCard(item);
+          const cardElement = card.getCardElement();
+          cardsList.addItem(cardElement);
+        },
+      },
+      ".content__list"
+    );
+
+    cardsList.renderItems();
+
+    profileInfo.name = result[1].name;
+    profileInfo.about = result[1].about;
+    profileInfo.avatar = result[1].avatar;
+  });
+}
+
+loadInitialPage();

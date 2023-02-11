@@ -74,16 +74,27 @@
   opacity: 0.5;
 }
 
-/*
-.card__heart-like {
-  background: url("../images/like.svg");
-  width: 21px;
-  height: 18px;
-  border: none;
-  background-repeat: no-repeat;
-  cursor: pointer;
+.card__heart-and-likes {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
 }
-*/
+
+.card__likes {
+  margin: 0;
+
+  width: 9px;
+  height: 13px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+}
+
 .card__heart_like {
   background: url("../images/like.svg");
   background-repeat: no-repeat;
