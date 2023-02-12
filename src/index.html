@@ -27,17 +27,13 @@
       <main>
         <section class="profile">
           <div class="profile__avatar-info">
-            <img
-              src="<%=require('./images/jacques-cousteau.jpg')%>"
-              class="avatar profile__avatar"
-              alt="profile image of JacquesCousteau"
-            />
+            <img class="avatar profile__avatar" />
             <div class="profile__info">
               <div class="profile__name-pen">
-                <h1 class="profile__name">Jacques Cousteau</h1>
+                <h1 class="profile__name"></h1>
                 <button class="profile__pen" type="button"></button>
               </div>
-              <p class="profile__name-tag">Explorer</p>
+              <p class="profile__name-tag"></p>
             </div>
           </div>
           <button class="profile__add-button" type="button"></button>
@@ -162,6 +158,19 @@
         </div>
       </li>
     </template>
+
+    <div class="modal" id="delete-card-confirmation">
+      <div class="modal__container">
+        <button class="modal__close" type="button"></button>
+        <div class="modal__content">
+          <h3 class="modal__heading">Are you sure?</h3>
+          <form class="modal__form" name="card-delete" novalidate>
+            <button type="submit" class="modal__submit">Yes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!--<script src="./scripts/index.js" type="module"></script>
     <script src="./scripts/Card.js" type="module"></script>
     <script src="./scripts/utils.js" type="module"></script>

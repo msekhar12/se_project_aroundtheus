@@ -22,7 +22,6 @@ class Api {
   }
 
   getUserInfo() {
-    console.log(`${this._baseUrl}/users/me`);
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         authorization: this._token,
@@ -33,6 +32,37 @@ class Api {
       }
       // if the server returns an error, reject the promise
       return Promise.reject(`Error: ${res.status}`);
+    });
+  }
+
+  updateUserInfo(profileInfo) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profileInfo),
+    });
+  }
+
+  addNewPicture(pictureInfo) {
+    return fetch(`${this._baseUrl}/cards `, {
+      method: "POST",
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pictureInfo),
+    });
+  }
+
+  deleteCard(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        authorization: this._token,
+      },
     });
   }
 

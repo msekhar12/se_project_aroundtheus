@@ -10,7 +10,12 @@
   z-index: 1;
   justify-content: center;
   align-items: center;
-  display: flex;
+
+  /*Make the display: none, since the forms are shown for a split second
+  when the page loads, specially on the slow connections (tested with network throttling)
+  We will set the display:flex in the .modal__open modifier*/
+  /*display: flex;*/
+  display: none;
   visibility: hidden;
   opacity: 0;
   /*The poniter-events:none must be set when the form is NOT visible.
@@ -181,6 +186,7 @@ If NOT used, then the error will be displayed at the top of the page.
   (when we open a popup visibility will become visible immediately)
   */
 .modal_open {
+  display: flex;
   visibility: visible;
   /*The following opacity setting is necessary even thouh we are using opacity in transition*/
   opacity: 1;

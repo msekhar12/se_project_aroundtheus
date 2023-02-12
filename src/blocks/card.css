@@ -13,6 +13,10 @@
   position: relative;
 }
 
+.card__delete_disable {
+  display: none;
+}
+
 .card__image {
   border-radius: 10px 10px 0px 0px;
   max-width: 100%;

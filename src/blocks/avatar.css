@@ -1,5 +1,13 @@
 .avatar {
-  max-width: 120px;
-  max-height: 120px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
+  object-fit: cover;
 }
+
+/*
+object-fit: cover
+The replaced content is sized to maintain its aspect ratio while filling the element's 
+entire content box. If the object's aspect ratio does not match the aspect ratio of its box, 
+then the object will be clipped to fit.
+*/
