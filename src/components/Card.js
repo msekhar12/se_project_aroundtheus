@@ -1,13 +1,21 @@
 class Card {
-  constructor({ data, selector, clickEventHandler, deleteEventHandler }) {
+  constructor({
+    data,
+    selector,
+    clickEventHandler,
+    deleteEventHandler,
+    likeEventHandler,
+  }) {
     this._src = data.link;
     this._alt = data.name;
     this._textContent = data.name;
     this._likes = data.likes;
     this._ownerInd = data.ownerInd;
+    this._cardLiked = data.cardLiked;
     this._selector = selector;
     this._clickEventHandler = clickEventHandler;
     this._deleteEventHandler = deleteEventHandler;
+    this._likeEventHandler = likeEventHandler;
   }
 
   _getTemplate() {
@@ -25,9 +33,9 @@ class Card {
     this._cardLikes.textContent = this._likes;
   }
 
-  _handleToggleLike(event) {
-    event.target.classList.toggle("card__heart_like");
-  }
+  //_handleToggleLike(event) {
+  //  event.target.classList.toggle("card__heart_like");
+  //}
 
   _handleDeleteCard(event) {
     this._deleteEventHandler();
@@ -45,12 +53,36 @@ class Card {
     });
 
     this._cardLikeButton.addEventListener("click", (evt) => {
-      this._handleToggleLike(evt);
+      //this._handleToggleLike(evt);
+      //if (!evt.classList.contains("card__heart_like")) {
+      //  this.likeCard(evt);
+      //} else {
+      //  this.revertLikeCard(evt);
+      // }
+      this._likeEventHandler();
     });
+  }
+
+  likeCard() {
+    this._cardLikeButton.classList.add("card__heart_like");
+    this._cardLiked = true;
+  }
+
+  unlikeCard() {
+    this._cardLikeButton.classList.remove("card__heart_like");
+    this._cardLiked = false;
+  }
+
+  isCardLiked() {
+    return this._cardLiked;
   }
 
   removeCardElement() {
     this._element.remove();
+  }
+
+  updateLikes(likes) {
+    this._cardLikes.textContent = likes;
   }
 
   getCardElement() {
@@ -68,6 +100,12 @@ class Card {
     // photo
     if (!this._ownerInd) {
       this._deleteCardButton.classList.add("card__delete_disable");
+    }
+
+    if (this._cardLiked) {
+      this.likeCard();
+    } else {
+      this.unlikeCard();
     }
 
     return this._element;

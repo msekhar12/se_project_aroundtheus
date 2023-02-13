@@ -66,6 +66,24 @@ class Api {
     });
   }
 
+  updateLikeCard(cardId, cardLiked) {
+    if (cardLiked) {
+      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+        method: "DELETE",
+        headers: {
+          authorization: this._token,
+        },
+      });
+    } else {
+      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+        method: "PUT",
+        headers: {
+          authorization: this._token,
+        },
+      });
+    }
+  }
+
   performPromiseAll(promiseList) {
     return Promise.all(promiseList);
   }

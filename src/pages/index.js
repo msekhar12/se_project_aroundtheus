@@ -163,8 +163,33 @@ function createCard(item) {
           });
         },
       });
-
       deleteCardConfirmation.open();
+    },
+    likeEventHandler: () => {
+      new Api(apiOptions)
+        .updateLikeCard(item.imageId, card.isCardLiked())
+        .then((result) => {
+          if (result.ok) {
+            console.log(result);
+            return result.json();
+          } else {
+            return Promise.reject(
+              `Error while updating the likes. ${result.status}`
+            );
+          }
+        })
+        .then((result) => {
+          console.log(result);
+          if (checkCardLike(result.likes)) {
+            card.likeCard();
+          } else {
+            card.unlikeCard();
+          }
+          card.updateLikes(result.likes.length);
+        })
+        .catch((errMessage) => {
+          console.log(errMessage);
+        });
     },
   });
   return card;
@@ -200,6 +225,8 @@ const addCardForm = new PopupWithForm({
           name: data.name,
           link: data.link,
           ownerInd: data.ownerInd,
+          cardLiked: false,
+          likes: 0,
         });
         const cardElement = card.getCardElement();
         cardsList.prependItem(cardElement);
@@ -253,9 +280,23 @@ function addProfileInfo(profileInfo, initialCards) {
 
 let cardsList = "";
 
+//profileInfo contains the user details (like their id, name and about info)
+//It will be filled via an API call
+const profileInfo = {};
+
+//Checks if the user ID is one of the IDs who liked the photo
+function checkCardLike(likes) {
+  for (let i = 0; i < likes.length; i++) {
+    if (likes[i]._id == profileInfo._id) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function loadInitialPage() {
   const initialCards = [];
-  const profileInfo = {};
+
   const cardData = new Api(apiOptions)
     .getInitialCards()
     .then((result) => {
@@ -279,20 +320,23 @@ function loadInitialPage() {
     profileInfo.about = result[1].about;
     profileInfo.avatar = result[1].avatar;
     profileInfo._id = result[1]._id;
+
     //ownerInd will help us to determine if the photo is owned by the user
     // If owned by the user, we will add the delete bin to the photo,
     // else we will not add delete bin to the photo
     result[0].forEach((element) => {
       const ownerInd = profileInfo._id === element.owner._id;
+
+      const cardLiked = checkCardLike(element.likes);
       initialCards.push({
         name: element.name,
         link: element.link,
         likes: element.likes.length,
         ownerInd: ownerInd,
         imageId: element._id,
+        cardLiked: cardLiked,
       });
     });
-
     addProfileInfo(profileInfo, initialCards);
   });
 }
