@@ -91,6 +91,61 @@
   opacity: 0.6;
 }
 
+.profile__avatar-edit {
+  width: 120px;
+  height: 120px;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  margin: auto;
+  padding: 0;
+  /* z-index: 1; */
+  position: fixed;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  /* cursor: pointer; */
+  /* pointer-events: all; */
+  z-index: 1;
+  /* background: rgba(0, 0, 0, 0.8); */
+  display: none;
+  /* visibility: hidden; */
+  /* transition: visibility 0s, opacity 0.5s linear; */
+}
+
+.profile__avatar-edit_show {
+  display: flex;
+  visibility: visible;
+  /*The following opacity setting is necessary even thouh we are using opacity in transition*/
+  opacity: 1;
+  /*This transition will make the modal slowly be visible instead of abruptly being visible*/
+  /* transition: visibility 0s, opacity 0.5s linear; */
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.profile__avatar-pen {
+  background: url("../images/avatar-pen.svg");
+
+  width: 120px;
+  height: 120px;
+  border: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* align-self: center; */
+  box-sizing: border-box;
+  /* flex-shrink: 0; */
+  cursor: pointer;
+  /* display: flex;
+  visibility: visible;
+  opacity: 1; */
+  pointer-events: all;
+  /* transition: visibility 0s 0.5s, opacity 0.5s linear; */
+  /* padding: 0; */
+  z-index: 2;
+}
+
 /*Adjust the profile__info block, so that the profile
 elements do not overlap*/
 @media screen and (max-width: 740px) {

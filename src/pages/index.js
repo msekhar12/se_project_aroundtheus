@@ -41,6 +41,7 @@ const profilePen = document.querySelector(".profile__pen");
 const profileName = document.querySelector(".profile__name");
 const profileNameTag = document.querySelector(".profile__name-tag");
 const profileAvatar = document.querySelector(".profile__avatar");
+const avatarEdit = document.querySelector(".profile__avatar-edit");
 
 const profileModal = document.querySelector("#profile-edit");
 const profileFormElement = profileModal.querySelector(".modal__form");
@@ -269,9 +270,23 @@ function addProfileInfo(profileInfo, initialCards) {
   profileAvatar.src = profileInfo.avatar;
   profileAvatar.alt = `Profile of ${profileInfo.name}`;
 
-  profileAvatar.onload = addInitialCards(initialCards);
+  profileAvatar.onload = () => {
+    addInitialCards(initialCards);
+  };
   profileAvatar.onerror = () => console.log("Error: Not able to load Avatar!!");
 }
+
+profileAvatar.addEventListener("mouseover", (event) => {
+  avatarEdit.classList.add("profile__avatar-edit_show");
+});
+
+avatarEdit.addEventListener("mouseout", (event) => {
+  avatarEdit.classList.remove("profile__avatar-edit_show");
+});
+
+// profileAvatar.addEventListener("mouseout", (event) => {
+// avatarEdit.classList.remove("profile__avatar-edit_show");
+// });
 
 // This variable will be updated in addInitialCards() function,
 // which will be called in the promise, after the cards have been read.
