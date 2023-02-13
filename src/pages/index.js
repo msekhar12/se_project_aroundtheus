@@ -42,6 +42,7 @@ const profileName = document.querySelector(".profile__name");
 const profileNameTag = document.querySelector(".profile__name-tag");
 const profileAvatar = document.querySelector(".profile__avatar");
 const avatarEdit = document.querySelector(".profile__avatar-edit");
+const avatarEditModal = document.querySelector("#avatar-edit");
 
 const profileModal = document.querySelector("#profile-edit");
 const profileFormElement = profileModal.querySelector(".modal__form");
@@ -282,6 +283,11 @@ profileAvatar.addEventListener("mouseover", (event) => {
 
 avatarEdit.addEventListener("mouseout", (event) => {
   avatarEdit.classList.remove("profile__avatar-edit_show");
+});
+
+avatarEdit.addEventListener("click", (event) => {
+  console.log(avatarEditModal.classList);
+  avatarEditModal.classList.add("modal_open");
 });
 
 // profileAvatar.addEventListener("mouseout", (event) => {
