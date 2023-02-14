@@ -95,7 +95,7 @@
   width: 120px;
   height: 120px;
   background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
+  /* display: flex; */
   margin: auto;
   padding: 0;
   /* z-index: 1; */
