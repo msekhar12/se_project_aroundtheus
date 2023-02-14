@@ -99,7 +99,7 @@
   margin: auto;
   padding: 0;
   /* z-index: 1; */
-  position: fixed;
+  position: absolute;
   flex-direction: row;
   align-items: center;
   justify-content: center;
