@@ -26,9 +26,9 @@ class PopupWithForm extends Popup {
     });
   }
 
-  //reset() {
-  //  this._form.reset();
-  //}
+  reset() {
+    this._form.reset();
+  }
 
   /**To the Reviewer (sprint-8):
    * I made changes as per your suggestion. Removed reset() function,

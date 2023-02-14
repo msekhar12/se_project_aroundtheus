@@ -35,7 +35,8 @@ class Api {
     });
   }
 
-  updateUserInfo(profileInfo) {
+  updateUserInfo(profileInfo, profileEditSubmitButton) {
+    profileEditSubmitButton.textContent = "Saving...";
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: {
@@ -46,7 +47,8 @@ class Api {
     });
   }
 
-  addNewPicture(pictureInfo) {
+  addNewPicture(pictureInfo, addCardSubmitButton) {
+    addCardSubmitButton.textContent = "Saving...";
     return fetch(`${this._baseUrl}/cards `, {
       method: "POST",
       headers: {
@@ -82,6 +84,18 @@ class Api {
         },
       });
     }
+  }
+
+  updateAvatar(newAvatarInfo, avatarEditSubmitButton) {
+    avatarEditSubmitButton.textContent = "Saving...";
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      body: JSON.stringify(newAvatarInfo),
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   performPromiseAll(promiseList) {

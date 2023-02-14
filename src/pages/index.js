@@ -81,15 +81,24 @@ const userInfo = new UserInfo({
   jobSelector: ".profile__name-tag",
 });
 
+const profileEditSubmitButton = document
+  .querySelector("#profile-edit")
+  .querySelector(".modal__submit");
+
+const profileEditSubmitButtonTextOriginal = profileEditSubmitButton.textContent;
+
 // Create profileForm object
 const profileForm = new PopupWithForm({
   modalSelector: "#profile-edit",
   handleFormSubmit: (inputs) => {
     new Api(apiOptions)
-      .updateUserInfo({
-        name: inputs["profile-modal-name"],
-        about: inputs["profile-modal-job"],
-      })
+      .updateUserInfo(
+        {
+          name: inputs["profile-modal-name"],
+          about: inputs["profile-modal-job"],
+        },
+        profileEditSubmitButton
+      )
       .then((result) => {
         if (result.ok) {
           return result.json();
@@ -101,7 +110,8 @@ const profileForm = new PopupWithForm({
       })
       .then((data) => {
         userInfo.setUserInfo(data.name, data.about);
-        console.log(data);
+        profileEditSubmitButton.textContent =
+          profileEditSubmitButtonTextOriginal;
         profileForm.close();
       })
       .catch((errMessage) => {
@@ -156,7 +166,6 @@ function createCard(item) {
         handleFormSubmit: () => {
           new Api(apiOptions).deleteCard(item.imageId).then((result) => {
             if (result.ok) {
-              console.log(result);
               card.removeCardElement();
               deleteCardConfirmation.close();
             } else {
@@ -172,7 +181,6 @@ function createCard(item) {
         .updateLikeCard(item.imageId, card.isCardLiked())
         .then((result) => {
           if (result.ok) {
-            console.log(result);
             return result.json();
           } else {
             return Promise.reject(
@@ -181,7 +189,6 @@ function createCard(item) {
           }
         })
         .then((result) => {
-          console.log(result);
           if (checkCardLike(result.likes)) {
             card.likeCard();
           } else {
@@ -200,6 +207,11 @@ function createCard(item) {
 /*---------------------------------*/
 /* New cards addition logic        */
 /*---------------------------------*/
+const addCardSubmitButton = document
+  .querySelector("#add-card")
+  .querySelector(".modal__submit");
+
+const addCardSubmitButtonTextOriginal = addCardSubmitButton.textContent;
 
 // Handle the ADD button (to add cards)
 // modalSelector, handleFormSubmit
@@ -212,8 +224,9 @@ const addCardForm = new PopupWithForm({
     };
 
     new Api(apiOptions)
-      .addNewPicture(item)
+      .addNewPicture(item, addCardSubmitButton)
       .then((result) => {
+        console.log(addCardSubmitButtonTextOriginal);
         if (result.ok) {
           return result.json();
         } else {
@@ -226,12 +239,14 @@ const addCardForm = new PopupWithForm({
         const card = createCard({
           name: data.name,
           link: data.link,
-          ownerInd: data.ownerInd,
+          ownerInd: true,
           cardLiked: false,
           likes: 0,
         });
         const cardElement = card.getCardElement();
         cardsList.prependItem(cardElement);
+        addCardSubmitButton.textContent = addCardSubmitButtonTextOriginal;
+        addCardForm.reset();
         addCardForm.close();
       })
       .catch((errMessage) => {
@@ -265,6 +280,54 @@ function addInitialCards(initialCards) {
   cardsList.renderItems();
 }
 
+function updateProfileAvatar(newAvatar) {
+  const oldAvatar = profileAvatar.src;
+  profileAvatar.src = newAvatar;
+
+  profileAvatar.onerror = () => {
+    profileAvatar.src = oldAvatar;
+    console.log("Error: Not able to load new Avatar. Avatar unchanged!!");
+  };
+}
+
+const avatarEditSubmitButton = document
+  .querySelector("#avatar-edit")
+  .querySelector(".modal__submit");
+
+const avatarEditSubmitButtonTextOriginal = avatarEditSubmitButton.textContent;
+
+const updateAvatarForm = new PopupWithForm({
+  modalSelector: "#avatar-edit",
+  handleFormSubmit: (inputs) => {
+    const newAvatarInfo = {
+      avatar: inputs["avatar-url"],
+    };
+
+    new Api(apiOptions)
+      .updateAvatar(newAvatarInfo, avatarEditSubmitButton)
+      .then((result) => {
+        if (result.ok) {
+          return result.json();
+        } else {
+          return Promise.reject(
+            `Error while adding new avatar: ${result.status}`
+          );
+        }
+      })
+      .then((data) => {
+        updateProfileAvatar(inputs["avatar-url"]);
+        avatarEditSubmitButton.textContent = avatarEditSubmitButtonTextOriginal;
+        updateAvatarForm.close();
+      })
+      .catch((errMessage) => {
+        console.log(errMessage);
+        updateAvatarForm.close();
+      });
+
+    //addCardForm.reset();
+  },
+});
+
 function addProfileInfo(profileInfo, initialCards) {
   profileName.textContent = profileInfo.name;
   profileNameTag.textContent = profileInfo.about;
@@ -286,8 +349,7 @@ avatarEdit.addEventListener("mouseout", (event) => {
 });
 
 avatarEdit.addEventListener("click", (event) => {
-  console.log(avatarEditModal.classList);
-  avatarEditModal.classList.add("modal_open");
+  updateAvatarForm.open();
 });
 
 // profileAvatar.addEventListener("mouseout", (event) => {

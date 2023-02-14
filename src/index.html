@@ -179,7 +179,7 @@
         <button class="modal__close" type="button"></button>
         <div class="modal__content">
           <h3 class="modal__heading">Change profile picture</h3>
-          <form class="modal__form" name="avatar-edit" novalidate>
+          <form class="modal__form" name="avatar-edit-form" novalidate>
             <label class="modal__label">
               <input
                 type="url"
@@ -187,9 +187,9 @@
                 placeholder="Profile Image URL"
                 required
                 minlength="2"
-                maxlength="40"
+                maxlength="500"
                 id="avatar-url"
-                name="avatar-url-name"
+                name="avatar-url"
               />
               <span class="modal__line"></span>
               <span class="modal__input-error" id="avatar-url-error"></span>
