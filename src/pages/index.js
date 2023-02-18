@@ -11,12 +11,8 @@ import { FormValidator } from "../components/FormValidator.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 
 import { Api } from "../components/Api.js";
-import { Popup } from "../components/Popup";
 
-const apiOptions = {
-  baseUrl: "https://around.nomoreparties.co/v1/group-12",
-  token: "51b8259d-f8d1-4b7c-b443-194620edca24",
-};
+//import { Popup } from "../components/Popup";
 
 // Global dict for validation of form elements
 const configDict = {
@@ -91,25 +87,24 @@ const profileEditSubmitButtonTextOriginal = profileEditSubmitButton.textContent;
 const profileForm = new PopupWithForm({
   modalSelector: "#profile-edit",
   handleFormSubmit: (inputs) => {
+    profileEditSubmitButton.textContent = "Saving...";
+
+    const apiOptions = {
+      baseUrl: "https://around.nomoreparties.co/v1/group-12",
+      headers: {
+        authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: inputs["profile-modal-name"],
+        about: inputs["profile-modal-job"],
+      }),
+    };
+
     new Api(apiOptions)
-      .updateUserInfo(
-        {
-          name: inputs["profile-modal-name"],
-          about: inputs["profile-modal-job"],
-        },
-        profileEditSubmitButton
-      )
+      .updateUserInfo()
       .then((result) => {
-        if (result.ok) {
-          return result.json();
-        } else {
-          return Promise.reject(
-            `Error while updating the Profile: ${result.status}`
-          );
-        }
-      })
-      .then((data) => {
-        userInfo.setUserInfo(data.name, data.about);
+        userInfo.setUserInfo(result.name, result.about);
         profileEditSubmitButton.textContent =
           profileEditSubmitButtonTextOriginal;
         profileForm.close();
@@ -147,9 +142,13 @@ profilePen.addEventListener("click", handleEditProfile);
 
 const modalCard = new PopupWithImage("#image-modal");
 
-// Fill with default cards initially
-// ({ items, renderer }, containerSelector)
-//    handleDeleteCard, handleLikeCard, handleExpandCard
+// The handleFormSubmit is initialized with dummy
+// function. This will be set in the deleteEventHandler in the createCard() function
+const deleteCardConfirmation = new PopupWithForm({
+  modalSelector: "#delete-card-confirmation",
+  handleFormSubmit: () => {},
+});
+
 function createCard(item) {
   const card = new Card({
     data: item,
@@ -160,34 +159,39 @@ function createCard(item) {
         alt: item.name,
       });
     },
+
     deleteEventHandler: () => {
-      const deleteCardConfirmation = new PopupWithForm({
-        modalSelector: "#delete-card-confirmation",
-        handleFormSubmit: () => {
-          new Api(apiOptions).deleteCard(item.imageId).then((result) => {
-            if (result.ok) {
-              card.removeCardElement();
-              deleteCardConfirmation.close();
-            } else {
-              console.log(`Error while deleting the card. ${result.status}`);
-            }
-          });
+      const apiOptions = {
+        baseUrl: "https://around.nomoreparties.co/v1/group-12",
+        headers: {
+          authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
         },
-      });
+        cardId: item.imageId,
+      };
+
       deleteCardConfirmation.open();
+      deleteCardConfirmation.setSubmitAction(() => {
+        new Api(apiOptions)
+          .deleteCard()
+          .then((result) => {
+            card.removeCardElement();
+            deleteCardConfirmation.close();
+          })
+          .catch((err) => console.log(err));
+      });
     },
     likeEventHandler: () => {
+      const apiOptions = {
+        baseUrl: "https://around.nomoreparties.co/v1/group-12",
+        headers: {
+          authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
+        },
+        cardId: item.imageId,
+        cardLiked: card.isCardLiked(),
+      };
+
       new Api(apiOptions)
-        .updateLikeCard(item.imageId, card.isCardLiked())
-        .then((result) => {
-          if (result.ok) {
-            return result.json();
-          } else {
-            return Promise.reject(
-              `Error while updating the likes. ${result.status}`
-            );
-          }
-        })
+        .updateLikeCard()
         .then((result) => {
           if (checkCardLike(result.likes)) {
             card.likeCard();
@@ -218,23 +222,24 @@ const addCardSubmitButtonTextOriginal = addCardSubmitButton.textContent;
 const addCardForm = new PopupWithForm({
   modalSelector: "#add-card",
   handleFormSubmit: (inputs) => {
+    addCardSubmitButton.textContent = "Saving...";
+
     const item = {
       name: inputs["add-card-title"],
       link: inputs["add-card-image-url"],
     };
 
+    const apiOptions = {
+      baseUrl: "https://around.nomoreparties.co/v1/group-12",
+      headers: {
+        authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    };
+
     new Api(apiOptions)
-      .addNewPicture(item, addCardSubmitButton)
-      .then((result) => {
-        console.log(addCardSubmitButtonTextOriginal);
-        if (result.ok) {
-          return result.json();
-        } else {
-          return Promise.reject(
-            `Error while adding new image: ${result.status}`
-          );
-        }
-      })
+      .addNewPicture()
       .then((data) => {
         const card = createCard({
           name: data.name,
@@ -242,6 +247,7 @@ const addCardForm = new PopupWithForm({
           ownerInd: true,
           cardLiked: false,
           likes: 0,
+          imageId: data._id,
         });
         const cardElement = card.getCardElement();
         cardsList.prependItem(cardElement);
@@ -303,23 +309,24 @@ const updateAvatarForm = new PopupWithForm({
       avatar: inputs["avatar-url"],
     };
 
+    const apiOptions = {
+      baseUrl: "https://around.nomoreparties.co/v1/group-12",
+      headers: {
+        authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newAvatarInfo),
+    };
+    avatarEditSubmitButton.textContent = "Saving...";
     new Api(apiOptions)
-      .updateAvatar(newAvatarInfo, avatarEditSubmitButton)
-      .then((result) => {
-        if (result.ok) {
-          return result.json();
-        } else {
-          return Promise.reject(
-            `Error while adding new avatar: ${result.status}`
-          );
-        }
-      })
+      .updateAvatar()
       .then((data) => {
         updateProfileAvatar(inputs["avatar-url"]);
         avatarEditSubmitButton.textContent = avatarEditSubmitButtonTextOriginal;
         updateAvatarForm.close();
       })
       .catch((errMessage) => {
+        avatarEditSubmitButton.textContent = avatarEditSubmitButtonTextOriginal;
         console.log(errMessage);
         updateAvatarForm.close();
       });
@@ -380,6 +387,13 @@ function checkCardLike(likes) {
 function loadInitialPage() {
   const initialCards = [];
 
+  const apiOptions = {
+    baseUrl: "https://around.nomoreparties.co/v1/group-12",
+    headers: {
+      authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
+    },
+  };
+
   const cardData = new Api(apiOptions)
     .getInitialCards()
     .then((result) => {
@@ -411,6 +425,7 @@ function loadInitialPage() {
       const ownerInd = profileInfo._id === element.owner._id;
 
       const cardLiked = checkCardLike(element.likes);
+
       initialCards.push({
         name: element.name,
         link: element.link,
@@ -420,6 +435,7 @@ function loadInitialPage() {
         cardLiked: cardLiked,
       });
     });
+
     addProfileInfo(profileInfo, initialCards);
   });
 }

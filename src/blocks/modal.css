@@ -13,9 +13,11 @@
 
   /*Make the display: none, since the forms are shown for a split second
   when the page loads, specially on the slow connections (tested with network throttling)
-  We will set the display:flex in the .modal__open modifier*/
-  /*display: flex;*/
-  display: none;
+  We will set the display:flex in the .modal__open modifier.
+  However, display:none is not applying the transition.
+  */
+  display: flex;
+  /* display: none; */
   visibility: hidden;
   opacity: 0;
   /*The poniter-events:none must be set when the form is NOT visible.
@@ -25,7 +27,8 @@
   pointer-events: none;
   /*This transition will make the modal fade away, instead of abruptly closing*/
   /*The transition does not apply for the display property. You have to use visibility property*/
-  transition: visibility 0s 0.5s, opacity 0.5s linear;
+  /* transition: visibility 0s, opacity 0.5s linear; */
+  transition: visibility 0.2s, opacity 0.2s linear;
 }
 
 /*modal__container is needed to combine the modal close button and 
@@ -185,13 +188,18 @@ If NOT used, then the error will be displayed at the top of the page.
   .modal_open should not have a delay for visibility transition 
   (when we open a popup visibility will become visible immediately)
   */
+/*
+  see this for more info:
+  https://stackoverflow.com/questions/3331353/transitions-on-the-css-display-property
+  */
 .modal_open {
-  display: flex;
+  /* display: flex; */
   visibility: visible;
   /*The following opacity setting is necessary even thouh we are using opacity in transition*/
   opacity: 1;
   /*This transition will make the modal slowly be visible instead of abruptly being visible*/
-  transition: visibility 0s, opacity 0.5s linear;
+  /* transition: visibility 0.5s, opacity 0.5s linear; */
+
   /*The poniter-events:all must be set when the form is visible.
     If NOT set, then the user cannot interact with the form*/
   pointer-events: all;

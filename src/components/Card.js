@@ -31,6 +31,16 @@ class Card {
     this._cardImage.alt = this._alt;
     this._cardLabel.textContent = this._textContent;
     this._cardLikes.textContent = this._likes;
+    if (this._cardLiked) {
+      this.likeCard();
+    } else {
+      this.unlikeCard();
+    }
+    // Remove the delete button, if the user is not the owner of the
+    // photo
+    if (!this._ownerInd) {
+      this._deleteCardButton.classList.add("card__delete_disable");
+    }
   }
 
   //_handleToggleLike(event) {
@@ -47,10 +57,11 @@ class Card {
       this._clickEventHandler();
     });
 
-    this._deleteCardButton.addEventListener("click", (evt) => {
-      //this._handleDeleteCard(evt);
-      this._deleteEventHandler();
-    });
+    if (this._ownerInd) {
+      this._deleteCardButton.addEventListener("click", (evt) => {
+        this._deleteEventHandler();
+      });
+    }
 
     this._cardLikeButton.addEventListener("click", (evt) => {
       //this._handleToggleLike(evt);
@@ -95,18 +106,6 @@ class Card {
     this._cardLikes = this._element.querySelector(".card__likes");
     this._fillImageCard();
     this.setEventListeners();
-
-    // Remove the delete button, if the user is not the owner of the
-    // photo
-    if (!this._ownerInd) {
-      this._deleteCardButton.classList.add("card__delete_disable");
-    }
-
-    if (this._cardLiked) {
-      this.likeCard();
-    } else {
-      this.unlikeCard();
-    }
 
     return this._element;
   }

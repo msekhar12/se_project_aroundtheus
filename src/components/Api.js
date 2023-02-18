@@ -1,101 +1,80 @@
 class Api {
-  constructor({ baseUrl, token }) {
-    this._baseUrl = baseUrl;
-    this._token = token;
-    if (this._baseUrl.endsWith("/")) {
-      this._baseUrl = this._baseUrl.substr(0, this._baseUrl.length - 1);
-    }
+  constructor(options) {
+    this._options = options;
   }
 
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Error updating user information: ${res.status}`);
+  }
+
+  // _request(url, options) {
+  //   return fetch(url, options).then(this._checkResponse);
+  // }
+
   getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
-      headers: {
-        authorization: this._token,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // if the server returns an error, reject the promise
-      return Promise.reject(`Error: ${res.status}`);
-    });
+    return fetch(`${this._options.baseUrl}/cards`, {
+      headers: this._options.headers,
+    }).then(this._checkResponse);
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, {
-      headers: {
-        authorization: this._token,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // if the server returns an error, reject the promise
-      return Promise.reject(`Error: ${res.status}`);
-    });
+    return fetch(`${this._options.baseUrl}/users/me`, {
+      headers: this._options.headers,
+    }).then(this._checkResponse);
   }
 
-  updateUserInfo(profileInfo, profileEditSubmitButton) {
-    profileEditSubmitButton.textContent = "Saving...";
-    return fetch(`${this._baseUrl}/users/me`, {
+  updateUserInfo() {
+    return fetch(`${this._options.baseUrl}/users/me`, {
       method: "PATCH",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(profileInfo),
-    });
+      headers: this._options.headers,
+      body: this._options.body,
+    }).then(this._checkResponse);
   }
 
-  addNewPicture(pictureInfo, addCardSubmitButton) {
-    addCardSubmitButton.textContent = "Saving...";
-    return fetch(`${this._baseUrl}/cards `, {
+  addNewPicture() {
+    return fetch(`${this._options.baseUrl}/cards `, {
       method: "POST",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(pictureInfo),
-    });
+      headers: this._options.headers,
+      body: this._options.body,
+    }).then(this._checkResponse);
   }
 
-  deleteCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+  deleteCard() {
+    return fetch(`${this._options.baseUrl}/cards/${this._options.cardId}`, {
       method: "DELETE",
-      headers: {
-        authorization: this._token,
-      },
-    });
+      headers: this._options.headers,
+    }).then(this._checkResponse);
   }
 
-  updateLikeCard(cardId, cardLiked) {
-    if (cardLiked) {
-      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-        method: "DELETE",
-        headers: {
-          authorization: this._token,
-        },
-      });
+  updateLikeCard() {
+    if (this._options.cardLiked) {
+      return fetch(
+        `${this._options.baseUrl}/cards/likes/${this._options.cardId}`,
+        {
+          method: "DELETE",
+          headers: this._options.headers,
+        }
+      ).then(this._checkResponse);
     } else {
-      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-        method: "PUT",
-        headers: {
-          authorization: this._token,
-        },
-      });
+      return fetch(
+        `${this._options.baseUrl}/cards/likes/${this._options.cardId}`,
+        {
+          method: "PUT",
+          headers: this._options.headers,
+        }
+      ).then(this._checkResponse);
     }
   }
 
-  updateAvatar(newAvatarInfo, avatarEditSubmitButton) {
-    avatarEditSubmitButton.textContent = "Saving...";
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
+  updateAvatar() {
+    return fetch(`${this._options.baseUrl}/users/me/avatar`, {
       method: "PATCH",
-      body: JSON.stringify(newAvatarInfo),
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
-    });
+      body: this._options.body,
+      headers: this._options.headers,
+    }).then(this._checkResponse);
   }
 
   performPromiseAll(promiseList) {
