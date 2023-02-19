@@ -10,9 +10,9 @@ class Api {
     return Promise.reject(`Error updating user information: ${res.status}`);
   }
 
-  // _request(url, options) {
-  //   return fetch(url, options).then(this._checkResponse);
-  // }
+  setOptions(options) {
+    this._options = options;
+  }
 
   getInitialCards() {
     return fetch(`${this._options.baseUrl}/cards`, {

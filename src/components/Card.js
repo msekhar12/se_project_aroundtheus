@@ -43,13 +43,8 @@ class Card {
     }
   }
 
-  //_handleToggleLike(event) {
-  //  event.target.classList.toggle("card__heart_like");
-  //}
-
   _handleDeleteCard(event) {
     this._deleteEventHandler();
-    //event.target.closest(".card").remove();
   }
 
   setEventListeners() {
@@ -64,12 +59,6 @@ class Card {
     }
 
     this._cardLikeButton.addEventListener("click", (evt) => {
-      //this._handleToggleLike(evt);
-      //if (!evt.classList.contains("card__heart_like")) {
-      //  this.likeCard(evt);
-      //} else {
-      //  this.revertLikeCard(evt);
-      // }
       this._likeEventHandler();
     });
   }

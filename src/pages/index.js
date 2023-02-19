@@ -12,17 +12,17 @@ import { PopupWithImage } from "../components/PopupWithImage.js";
 
 import { Api } from "../components/Api.js";
 
-//import { Popup } from "../components/Popup";
-
-// Global dict for validation of form elements
-const configDict = {
-  formSelector: ".modal__form",
-  inputSelector: ".modal__input",
-  inputErrorSelector: ".modal__input-error",
-  submitButtonSelector: ".modal__submit",
-  inactiveButtonClass: "modal__submit_inactive",
-  errorClass: "modal__input-error_display",
-};
+import {
+  configDict,
+  profilePen,
+  profileAvatar,
+  avatarEdit,
+  profileFormName,
+  profileModalNameInput,
+  profileModalJobInput,
+  cardTemplateID,
+  addCardButton,
+} from "../utils/constants.js";
 
 // Global variable to select all forms
 // Also convert the pseudo array to normal array using Array.from().
@@ -31,35 +31,6 @@ const configDict = {
 const allForms = Array.from(
   document.querySelectorAll(configDict["formSelector"])
 );
-
-// Global variables to support Profile editing/saving
-const profilePen = document.querySelector(".profile__pen");
-const profileName = document.querySelector(".profile__name");
-const profileNameTag = document.querySelector(".profile__name-tag");
-const profileAvatar = document.querySelector(".profile__avatar");
-const avatarEdit = document.querySelector(".profile__avatar-edit");
-const avatarEditModal = document.querySelector("#avatar-edit");
-
-const profileModal = document.querySelector("#profile-edit");
-const profileFormElement = profileModal.querySelector(".modal__form");
-const profileFormName = profileFormElement["name"];
-const profileModalNameInput = profileModal.querySelector("#profile-modal-name");
-const profileModalJobInput = profileModal.querySelector("#profile-modal-job");
-
-// Global variables for card template
-const cardTemplateID = "#card";
-
-// Global variable for all cards container
-// const contentList = document.querySelector(".content__list");
-
-// Global variables to support new card addition logic
-const addCardButton = document.querySelector(".profile__add-button");
-//const addCardModal = document.querySelector("#add-card");
-
-//const addCardFormElement = addCardModal.querySelector(".modal__form");
-//const addCardFormName = addCardFormElement["name"];
-//const cardTitle = addCardModal.querySelector("#add-card-title");
-//const cardURL = addCardModal.querySelector("#add-card-image-url");
 
 // Add forms input validators
 // formValidators objects will contain the form name as the key
@@ -75,6 +46,8 @@ allForms.forEach((form) => {
 const userInfo = new UserInfo({
   nameSelector: ".profile__name",
   jobSelector: ".profile__name-tag",
+  avatarSelector: ".profile__avatar",
+  userId: null,
 });
 
 const profileEditSubmitButton = document
@@ -82,6 +55,11 @@ const profileEditSubmitButton = document
   .querySelector(".modal__submit");
 
 const profileEditSubmitButtonTextOriginal = profileEditSubmitButton.textContent;
+
+// create an Api object.
+// This object's options are set
+// whenever we call the functions of this object.
+const api = new Api({});
 
 // Create profileForm object
 const profileForm = new PopupWithForm({
@@ -100,18 +78,19 @@ const profileForm = new PopupWithForm({
         about: inputs["profile-modal-job"],
       }),
     };
-
-    new Api(apiOptions)
+    api.setOptions(apiOptions);
+    api
       .updateUserInfo()
       .then((result) => {
         userInfo.setUserInfo(result.name, result.about);
-        profileEditSubmitButton.textContent =
-          profileEditSubmitButtonTextOriginal;
         profileForm.close();
       })
       .catch((errMessage) => {
         console.log(errMessage);
-        profileForm.close();
+      })
+      .finally(() => {
+        profileEditSubmitButton.textContent =
+          profileEditSubmitButtonTextOriginal;
       });
 
     //profileForm.reset();
@@ -169,9 +148,11 @@ function createCard(item) {
         cardId: item.imageId,
       };
 
+      api.setOptions(apiOptions);
+
       deleteCardConfirmation.open();
       deleteCardConfirmation.setSubmitAction(() => {
-        new Api(apiOptions)
+        api
           .deleteCard()
           .then((result) => {
             card.removeCardElement();
@@ -189,8 +170,8 @@ function createCard(item) {
         cardId: item.imageId,
         cardLiked: card.isCardLiked(),
       };
-
-      new Api(apiOptions)
+      api.setOptions(apiOptions);
+      api
         .updateLikeCard()
         .then((result) => {
           if (checkCardLike(result.likes)) {
@@ -237,8 +218,9 @@ const addCardForm = new PopupWithForm({
       },
       body: JSON.stringify(item),
     };
+    api.setOptions(apiOptions);
 
-    new Api(apiOptions)
+    api
       .addNewPicture()
       .then((data) => {
         const card = createCard({
@@ -251,13 +233,15 @@ const addCardForm = new PopupWithForm({
         });
         const cardElement = card.getCardElement();
         cardsList.prependItem(cardElement);
-        addCardSubmitButton.textContent = addCardSubmitButtonTextOriginal;
         addCardForm.reset();
         addCardForm.close();
       })
       .catch((errMessage) => {
         console.log(errMessage);
         addCardForm.close();
+      })
+      .finally(() => {
+        addCardSubmitButton.textContent = addCardSubmitButtonTextOriginal;
       });
 
     //addCardForm.reset();
@@ -288,10 +272,9 @@ function addInitialCards(initialCards) {
 
 function updateProfileAvatar(newAvatar) {
   const oldAvatar = profileAvatar.src;
-  profileAvatar.src = newAvatar;
-
+  userInfo.setAvatar(newAvatar, `Profile of ${profileInfo.name}`);
   profileAvatar.onerror = () => {
-    profileAvatar.src = oldAvatar;
+    userInfo.setAvatar(oldAvatar, `Profile of ${profileInfo.name}`);
     console.log("Error: Not able to load new Avatar. Avatar unchanged!!");
   };
 }
@@ -318,34 +301,23 @@ const updateAvatarForm = new PopupWithForm({
       body: JSON.stringify(newAvatarInfo),
     };
     avatarEditSubmitButton.textContent = "Saving...";
-    new Api(apiOptions)
+    api.setOptions(apiOptions);
+    api
       .updateAvatar()
       .then((data) => {
         updateProfileAvatar(inputs["avatar-url"]);
-        avatarEditSubmitButton.textContent = avatarEditSubmitButtonTextOriginal;
         updateAvatarForm.close();
       })
       .catch((errMessage) => {
-        avatarEditSubmitButton.textContent = avatarEditSubmitButtonTextOriginal;
         console.log(errMessage);
-        updateAvatarForm.close();
+      })
+      .finally(() => {
+        avatarEditSubmitButton.textContent = avatarEditSubmitButtonTextOriginal;
       });
 
     //addCardForm.reset();
   },
 });
-
-function addProfileInfo(profileInfo, initialCards) {
-  profileName.textContent = profileInfo.name;
-  profileNameTag.textContent = profileInfo.about;
-  profileAvatar.src = profileInfo.avatar;
-  profileAvatar.alt = `Profile of ${profileInfo.name}`;
-
-  profileAvatar.onload = () => {
-    addInitialCards(initialCards);
-  };
-  profileAvatar.onerror = () => console.log("Error: Not able to load Avatar!!");
-}
 
 profileAvatar.addEventListener("mouseover", (event) => {
   avatarEdit.classList.add("profile__avatar-edit_show");
@@ -358,10 +330,6 @@ avatarEdit.addEventListener("mouseout", (event) => {
 avatarEdit.addEventListener("click", (event) => {
   updateAvatarForm.open();
 });
-
-// profileAvatar.addEventListener("mouseout", (event) => {
-// avatarEdit.classList.remove("profile__avatar-edit_show");
-// });
 
 // This variable will be updated in addInitialCards() function,
 // which will be called in the promise, after the cards have been read.
@@ -377,7 +345,7 @@ const profileInfo = {};
 //Checks if the user ID is one of the IDs who liked the photo
 function checkCardLike(likes) {
   for (let i = 0; i < likes.length; i++) {
-    if (likes[i]._id == profileInfo._id) {
+    if (likes[i]._id == profileInfo.userId) {
       return true;
     }
   }
@@ -394,50 +362,54 @@ function loadInitialPage() {
     },
   };
 
-  const cardData = new Api(apiOptions)
-    .getInitialCards()
-    .then((result) => {
-      return result;
+  api.setOptions(apiOptions);
+
+  api
+    .performPromiseAll([api.getInitialCards(), api.getUserInfo()])
+    .then(([cardsData, userData]) => {
+      //profileInfo is a global variable
+      profileInfo.name = userData.name;
+      profileInfo.about = userData.about;
+      profileInfo.avatarUrl = userData.avatar;
+      profileInfo.userId = userData._id;
+
+      //Set user info and avatar on the page
+      userInfo.setUserInfo(profileInfo.name, profileInfo.about);
+      userInfo.setAvatar(
+        profileInfo.avatarUrl,
+        `Profile of ${profileInfo.name}`
+      );
+
+      profileAvatar.onload = () => {
+        //ownerInd will help us to determine if the photo is owned by the user
+        // If owned by the user, we will add the delete bin to the photo,
+        // else we will not add delete bin to the photo
+        cardsData.forEach((element) => {
+          const ownerInd = profileInfo.userId === element.owner._id;
+
+          const cardLiked = checkCardLike(element.likes);
+
+          initialCards.push({
+            name: element.name,
+            link: element.link,
+            likes: element.likes.length,
+            ownerInd: ownerInd,
+            imageId: element._id,
+            cardLiked: cardLiked,
+          });
+        });
+
+        addInitialCards(initialCards);
+      };
+
+      profileAvatar.onerror = () =>
+        console.log("Error: Not able to load Avatar!!");
+
+      // addProfileInfo(profileInfo, initialCards);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((res) => {
+      console.log(`Error while loading the initial page: ${res.status}`);
     });
-
-  const userData = new Api(apiOptions)
-    .getUserInfo()
-    .then((result) => {
-      return result;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  new Api(apiOptions).performPromiseAll([cardData, userData]).then((result) => {
-    profileInfo.name = result[1].name;
-    profileInfo.about = result[1].about;
-    profileInfo.avatar = result[1].avatar;
-    profileInfo._id = result[1]._id;
-
-    //ownerInd will help us to determine if the photo is owned by the user
-    // If owned by the user, we will add the delete bin to the photo,
-    // else we will not add delete bin to the photo
-    result[0].forEach((element) => {
-      const ownerInd = profileInfo._id === element.owner._id;
-
-      const cardLiked = checkCardLike(element.likes);
-
-      initialCards.push({
-        name: element.name,
-        link: element.link,
-        likes: element.likes.length,
-        ownerInd: ownerInd,
-        imageId: element._id,
-        cardLiked: cardLiked,
-      });
-    });
-
-    addProfileInfo(profileInfo, initialCards);
-  });
 }
 
 loadInitialPage();

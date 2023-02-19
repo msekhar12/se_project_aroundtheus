@@ -6,7 +6,8 @@ class PopupWithForm extends Popup {
     this._form = this._modal.querySelector(".modal__form");
     this._handleFormSubmit = handleFormSubmit;
     this._inputList = this._form.querySelectorAll(".modal__input");
-    //this.submitButton = this._form.querySelectorAll(".modal__submit");
+    this._submitButton = this._form.querySelectorAll(".modal__submit");
+    this._submitButtonText = this._submitButton.textContent;
     this.setEventListeners();
   }
 
@@ -35,22 +36,17 @@ class PopupWithForm extends Popup {
     this._form.reset();
   }
 
-  /**To the Reviewer (sprint-8):
-   * I made changes as per your suggestion. Removed reset() function,
-   * and added line to reset the form in close() itself.
-   * However, how can I handle the functionality of not to
-   * reset the form (to save the earlier typed data?).
-   * For example, in the new images add functionality, after typing the data,
-   * if the user closes the form, and then again clicks the add image button,
-   * the opened form should restore the earlier typed data.
-   * With the suggested changes I am not able to load the previously typed
-   * values for the new image upload form.
-   */
-  /*Sprint 9: Do not reset the form after close, as it will 
-  disable the submit button for the image delete reconfirmation modal*/
+  // add 2 params: isLoading and loadingText with a default text
+  renderLoading(isLoading, loadingText = "Saving...") {
+    if (isLoading) {
+      this._submitButton.textContent = loadingText;
+    } else {
+      this._submitButton.textContent = this._submitButtonText;
+    }
+  }
+
   close() {
     super.close();
-    //this._form.reset();
   }
 }
 

@@ -23,14 +23,6 @@ class Popup {
     window.removeEventListener("keydown", this._handleEscClose);
   }
 
-  /** To the reviewer*/
-  /**
-   * You suggested me to move the event listeners setting to open()
-   * and remove the event listeners in close().
-   * It's a great suggestion. However, I am using anonymous function
-   * to the event listeners. Do I need to repeat the code again in
-   * removeEventListener?
-   */
   setEventListeners() {
     this._modalClose.addEventListener("click", () => this.close());
 

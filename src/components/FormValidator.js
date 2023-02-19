@@ -34,10 +34,6 @@ class FormValidator {
 
   _toggleButtonState = () => {
     if (this._hasInValidInput()) {
-      // this._buttonElement.setAttribute("disabled", true);
-      // this._buttonElement.classList.add(
-      // this._configDict["inactiveButtonClass"]
-      // );
       this._disableSubmit();
     } else {
       this._buttonElement.classList.remove(
@@ -49,7 +45,6 @@ class FormValidator {
 
   _checkInputValidity = (inputElement) => {
     // inputElement.validationMessage is auto-created by the browser based on the validation error
-    // const inputElement = evt.target;
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement, inputElement.validationMessage);
     } else {
@@ -86,10 +81,6 @@ class FormValidator {
     // Alternatively we can disable the button when the modal is opened for display.
     // See the function (see the function: handleCreateCardSubmit(event) in index.js)
     this._formElement.addEventListener("reset", () => {
-      // `setTimeout` is needed to wait till the form is fully reset and then to call `this._toggleButtonState()`
-      //setTimeout(() => {
-      //  this._toggleButtonState();
-      //}, 0); // it’s enough to put 0 ms here
       this._disableSubmit();
     });
   }
