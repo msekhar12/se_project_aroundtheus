@@ -47,40 +47,32 @@ const userInfo = new UserInfo({
   nameSelector: ".profile__name",
   jobSelector: ".profile__name-tag",
   avatarSelector: ".profile__avatar",
-  userId: null,
 });
 
 const profileEditSubmitButton = document
   .querySelector("#profile-edit")
   .querySelector(".modal__submit");
 
-const profileEditSubmitButtonTextOriginal = profileEditSubmitButton.textContent;
-
 // create an Api object.
-// This object's options are set
-// whenever we call the functions of this object.
-const api = new Api({});
+const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  headers: {
+    authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
+    "Content-Type": "application/json",
+  },
+});
 
 // Create profileForm object
 const profileForm = new PopupWithForm({
   modalSelector: "#profile-edit",
   handleFormSubmit: (inputs) => {
-    profileEditSubmitButton.textContent = "Saving...";
+    profileForm.renderLoading(true, "Saving...");
 
-    const apiOptions = {
-      baseUrl: "https://around.nomoreparties.co/v1/group-12",
-      headers: {
-        authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    api
+      .updateUserInfo({
         name: inputs["profile-modal-name"],
         about: inputs["profile-modal-job"],
-      }),
-    };
-    api.setOptions(apiOptions);
-    api
-      .updateUserInfo()
+      })
       .then((result) => {
         userInfo.setUserInfo(result.name, result.about);
         profileForm.close();
@@ -89,11 +81,8 @@ const profileForm = new PopupWithForm({
         console.log(errMessage);
       })
       .finally(() => {
-        profileEditSubmitButton.textContent =
-          profileEditSubmitButtonTextOriginal;
+        profileForm.renderLoading(false);
       });
-
-    //profileForm.reset();
   },
 });
 
@@ -140,20 +129,10 @@ function createCard(item) {
     },
 
     deleteEventHandler: () => {
-      const apiOptions = {
-        baseUrl: "https://around.nomoreparties.co/v1/group-12",
-        headers: {
-          authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
-        },
-        cardId: item.imageId,
-      };
-
-      api.setOptions(apiOptions);
-
       deleteCardConfirmation.open();
       deleteCardConfirmation.setSubmitAction(() => {
         api
-          .deleteCard()
+          .deleteCard(item.imageId)
           .then((result) => {
             card.removeCardElement();
             deleteCardConfirmation.close();
@@ -162,17 +141,8 @@ function createCard(item) {
       });
     },
     likeEventHandler: () => {
-      const apiOptions = {
-        baseUrl: "https://around.nomoreparties.co/v1/group-12",
-        headers: {
-          authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
-        },
-        cardId: item.imageId,
-        cardLiked: card.isCardLiked(),
-      };
-      api.setOptions(apiOptions);
       api
-        .updateLikeCard()
+        .updateLikeCard(item.imageId, card.isCardLiked())
         .then((result) => {
           if (checkCardLike(result.likes)) {
             card.likeCard();
@@ -196,32 +166,20 @@ const addCardSubmitButton = document
   .querySelector("#add-card")
   .querySelector(".modal__submit");
 
-const addCardSubmitButtonTextOriginal = addCardSubmitButton.textContent;
-
 // Handle the ADD button (to add cards)
 // modalSelector, handleFormSubmit
 const addCardForm = new PopupWithForm({
   modalSelector: "#add-card",
   handleFormSubmit: (inputs) => {
-    addCardSubmitButton.textContent = "Saving...";
+    addCardForm.renderLoading(true, "Saving...");
 
     const item = {
       name: inputs["add-card-title"],
       link: inputs["add-card-image-url"],
     };
 
-    const apiOptions = {
-      baseUrl: "https://around.nomoreparties.co/v1/group-12",
-      headers: {
-        authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(item),
-    };
-    api.setOptions(apiOptions);
-
     api
-      .addNewPicture()
+      .addNewPicture(item)
       .then((data) => {
         const card = createCard({
           name: data.name,
@@ -241,7 +199,7 @@ const addCardForm = new PopupWithForm({
         addCardForm.close();
       })
       .finally(() => {
-        addCardSubmitButton.textContent = addCardSubmitButtonTextOriginal;
+        addCardForm.renderLoading(false);
       });
 
     //addCardForm.reset();
@@ -283,27 +241,15 @@ const avatarEditSubmitButton = document
   .querySelector("#avatar-edit")
   .querySelector(".modal__submit");
 
-const avatarEditSubmitButtonTextOriginal = avatarEditSubmitButton.textContent;
-
 const updateAvatarForm = new PopupWithForm({
   modalSelector: "#avatar-edit",
   handleFormSubmit: (inputs) => {
-    const newAvatarInfo = {
-      avatar: inputs["avatar-url"],
-    };
+    updateAvatarForm.renderLoading(true, "Saving...");
 
-    const apiOptions = {
-      baseUrl: "https://around.nomoreparties.co/v1/group-12",
-      headers: {
-        authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newAvatarInfo),
-    };
-    avatarEditSubmitButton.textContent = "Saving...";
-    api.setOptions(apiOptions);
     api
-      .updateAvatar()
+      .updateAvatar({
+        avatar: inputs["avatar-url"],
+      })
       .then((data) => {
         updateProfileAvatar(inputs["avatar-url"]);
         updateAvatarForm.close();
@@ -312,10 +258,8 @@ const updateAvatarForm = new PopupWithForm({
         console.log(errMessage);
       })
       .finally(() => {
-        avatarEditSubmitButton.textContent = avatarEditSubmitButtonTextOriginal;
+        updateAvatarForm.renderLoading(false);
       });
-
-    //addCardForm.reset();
   },
 });
 
@@ -354,15 +298,6 @@ function checkCardLike(likes) {
 
 function loadInitialPage() {
   const initialCards = [];
-
-  const apiOptions = {
-    baseUrl: "https://around.nomoreparties.co/v1/group-12",
-    headers: {
-      authorization: "51b8259d-f8d1-4b7c-b443-194620edca24",
-    },
-  };
-
-  api.setOptions(apiOptions);
 
   api
     .performPromiseAll([api.getInitialCards(), api.getUserInfo()])

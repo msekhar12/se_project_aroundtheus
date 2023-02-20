@@ -1,6 +1,7 @@
 class Api {
   constructor(options) {
-    this._options = options;
+    this._baseUrl = options.baseUrl;
+    this._headers = options.headers;
   }
 
   _checkResponse(res) {
@@ -10,70 +11,60 @@ class Api {
     return Promise.reject(`Error updating user information: ${res.status}`);
   }
 
-  setOptions(options) {
-    this._options = options;
-  }
-
   getInitialCards() {
-    return fetch(`${this._options.baseUrl}/cards`, {
-      headers: this._options.headers,
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 
   getUserInfo() {
-    return fetch(`${this._options.baseUrl}/users/me`, {
-      headers: this._options.headers,
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 
-  updateUserInfo() {
-    return fetch(`${this._options.baseUrl}/users/me`, {
+  updateUserInfo(data) {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._options.headers,
-      body: this._options.body,
+      headers: this._headers,
+      body: JSON.stringify(data),
     }).then(this._checkResponse);
   }
 
-  addNewPicture() {
-    return fetch(`${this._options.baseUrl}/cards `, {
+  addNewPicture(data) {
+    return fetch(`${this._baseUrl}/cards `, {
       method: "POST",
-      headers: this._options.headers,
-      body: this._options.body,
+      headers: this._headers,
+      body: JSON.stringify(data),
     }).then(this._checkResponse);
   }
 
-  deleteCard() {
-    return fetch(`${this._options.baseUrl}/cards/${this._options.cardId}`, {
+  deleteCard(cardId) {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
-      headers: this._options.headers,
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 
-  updateLikeCard() {
-    if (this._options.cardLiked) {
-      return fetch(
-        `${this._options.baseUrl}/cards/likes/${this._options.cardId}`,
-        {
-          method: "DELETE",
-          headers: this._options.headers,
-        }
-      ).then(this._checkResponse);
+  updateLikeCard(cardId, cardLiked) {
+    if (cardLiked) {
+      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+        method: "DELETE",
+        headers: this._headers,
+      }).then(this._checkResponse);
     } else {
-      return fetch(
-        `${this._options.baseUrl}/cards/likes/${this._options.cardId}`,
-        {
-          method: "PUT",
-          headers: this._options.headers,
-        }
-      ).then(this._checkResponse);
+      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+        method: "PUT",
+        headers: this._headers,
+      }).then(this._checkResponse);
     }
   }
 
-  updateAvatar() {
-    return fetch(`${this._options.baseUrl}/users/me/avatar`, {
+  updateAvatar(data) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
-      body: this._options.body,
-      headers: this._options.headers,
+      body: JSON.stringify(data),
+      headers: this._headers,
     }).then(this._checkResponse);
   }
 

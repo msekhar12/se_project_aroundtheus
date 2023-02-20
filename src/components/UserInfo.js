@@ -1,9 +1,9 @@
 class UserInfo {
-  constructor({ nameSelector, jobSelector, avatarSelector, userId }) {
+  constructor({ nameSelector, jobSelector, avatarSelector }) {
     this._profileName = document.querySelector(nameSelector);
     this._profileJob = document.querySelector(jobSelector);
     this._avatarSelector = document.querySelector(avatarSelector);
-    this._userId = document.querySelector(userId);
+    // this._userId = document.querySelector(userId);
   }
 
   getUserInfo() {
