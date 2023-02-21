@@ -69,9 +69,14 @@
   margin: 0px;
 }
 
+/*set the profile__avatar-info to relative, 
+else the position:absolute does not work for the avatar edit
+pen. It will positioned relative to the browser.*/
 .profile__avatar-info {
   display: flex;
   width: 64%;
+  position: relative;
+  flex-direction: row;
   /* justify-content: space-between; */
 }
 
@@ -92,12 +97,21 @@
   opacity: 0.6;
 }
 
+/*margin:auto is ineffective here, and is also not needed.
+But we must use position:absolute.
+also the parent element profile__avatar-info must be defined with
+position:relative, so that the avatar edit correctly overlaps in smaller screens.
+See the styling defined for profile__avatar for less than 620 sized device. 
+It is defined as auto for margin. 
+But margin:auto will not work for profile__avatar-edit, if we use position:absolute.
+To make the position:absolute work and also the margin:auto work, we need to explicitly define top, bottom, left,
+right as 0. Note that this is applicable only to smaller screen (<620 px)*/
 .profile__avatar-edit {
   width: 120px;
   height: 120px;
   background-color: rgba(0, 0, 0, 0.8);
   /* display: flex; */
-  margin: auto;
+  /* margin: auto; */
   padding: 0;
   /* z-index: 1; */
   position: absolute;
@@ -167,6 +181,19 @@ elements do not overlap*/
   .profile__avatar-info {
     justify-content: center;
   }
+
+  /**This is needed to make the avatar edit to have margin:auto
+  applied, at the same time position:absolute is defined*/
+  /* .profile__avatar-edit { */
+  /* top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; */
+  /* max-width: 70%; */
+  /* } */
+  .profile__avatar-edit_show {
+    align-self: flex-start;
+  }
 }
 
 @media screen and (max-width: 620px) {
@@ -180,6 +207,16 @@ elements do not overlap*/
 
   .profile__avatar {
     margin: 0 auto 30px auto;
+  }
+
+  /**This is needed to make the avatar edit to have margin:auto
+  applied, at the same time position:absolute is defined*/
+  .profile__avatar-edit {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto 30px;
   }
 
   .profile__pen {
