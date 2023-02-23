@@ -192,9 +192,9 @@ elements do not overlap*/
     right: 0; */
   /* max-width: 70%; */
   /* } */
-  .profile__avatar-edit_show {
+  /* .profile__avatar-edit_show {
     align-self: flex-start;
-  }
+  } */
 }
 
 @media screen and (max-width: 620px) {
