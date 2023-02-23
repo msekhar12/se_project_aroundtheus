@@ -179,7 +179,8 @@ elements do not overlap*/
   }
 
   .profile__avatar-info {
-    justify-content: center;
+    /* justify-content: center; */
+    justify-content: space-between;
   }
 
   /**This is needed to make the avatar edit to have margin:auto
